@@ -1,36 +1,43 @@
-h1, h2 {
-    font-family: 'Oswald', sans;
-}
+h1, h2{
+    font-family:'Oswald' , sans;
 
+}
+body{
+    color:darkblue;
+    font-family:'Open Sans', sans;
+    background-color:ivory;
+    margin: 10px 50px 10px 50px
+    
+
+}
 li{
     display:inline;
-    margin:50px;
-}
-
-body{
-    font-family: 'Open Sans', sans;
-    color:darkblue;
-    margin: 10px 50px 10px 50px;
-    width: 950px;
-    background-color:Ivory;
 
 }
+#navbar a{
+    margin-left:70px;
+    margin-right:70px;
+}
+
+
 img{
-    float: left;
-    
+    float:left;
+
 }
 
 .left{
     float:left;
     width:300px;
-
+    padding:1em;
 }
 .right{
     float:right;
     width:300px;
-
+    padding:1em;
 }
 .center{
-    margin-left: 300px;
+    margin-left:300px;
     margin-right:300px;
+    padding:1em;
+   
 }
