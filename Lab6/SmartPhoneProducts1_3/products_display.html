@@ -7,10 +7,11 @@
         var store_name = "Chloe Kam";
         var first_initial="C";
         var last_initial="K";
-         var line1=1;
+        var line1=1;
          var now=new Date();
          var hours=(hours+11)%12+1;
          var zone= (hours < 12)?'AM':'PM'
+     
   
 
 
@@ -37,7 +38,8 @@
             Hits:<span id="hits_span">0</span>
             Spins:<span id="spins_span">0</span>
             Hit/Spin:<span id="hit_spin_span">0</span>
-            line1:<span id="line1_span">0</span>
+       
+            
             </p>
             <span id='name_span'  style="font-size: 200%;"> 
 
@@ -54,6 +56,7 @@
             
 </Header>
     <div><main> 
+      
     <section class="item" onmouseover= "this.className='item rotate';spins_span.innerHTML=++spins;hit_spin_span.innerHTML = (hits/spins).toFixed(2);" onclick="this.className='item';  hits_span.innerHTML =++hits; hit_spin_span.innerHTML = (hits/spins).toFixed(2);">
 
         <h2>HTC</h2>
@@ -87,11 +90,14 @@
 
     
 </main></div>
+<span id="line1_span" ></span>
 <footer>
+    
     <h1>
-     
-        <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+        
+        <table border ="1" style="margin-left: auto; margin-right: auto; text-align: center;">
             <tbody><tr><th colspan="2"><h1>Your One Stop For Used Phones - <script>
+         
             
             document.write(`${first_initial} .  ${last_initial}  `);</script>'s.
             </h1></th></tr>
@@ -126,4 +132,6 @@
     var spins = 0; 
     hits_span.innerHTML=hits;
     spins_span.innerHTML=spins;
+   
+ 
 </script>
