@@ -5,12 +5,13 @@
         var first_name= "Chloe";
         var last_name="Kam";
         var store_name = "Chloe Kam";
-        var first_initial="C";
-        var last_initial="K";
         var line1=1;
          var now=new Date();
-         var hours=(hours+11)%12+1;
-         var zone= (hours < 12)?'AM':'PM'
+        
+         var minute=not.getMinutes();
+         var hours=now.getHours();
+
+      
      
   
 
@@ -92,14 +93,15 @@
 </main></div>
 <span id="line1_span" ></span>
 <footer>
-    
+  
+  
     <h1>
         
         <table border ="1" style="margin-left: auto; margin-right: auto; text-align: center;">
             <tbody><tr><th colspan="2"><h1>Your One Stop For Used Phones - <script>
          
             
-            document.write(`${first_initial} .  ${last_initial}  `);</script>'s.
+            document.write(`${first_name[0]} .  ${last_name[0]}  `);</script>'s.
             </h1></th></tr>
             <script>
 
@@ -132,6 +134,7 @@
     var spins = 0; 
     hits_span.innerHTML=hits;
     spins_span.innerHTML=spins;
+    var over_half=false; 
    
  
 </script>
