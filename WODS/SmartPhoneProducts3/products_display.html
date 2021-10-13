@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="./products_data.js"></script>
+    <link href="/Lab2/SmartPhoneProducts1/css/product-style.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Products</title>
+</head>
+
+<body>
+
+    <h1>Used Smart Phone Store</h1>
+    <div><main> 
+
+    <script>
+       for(i=0; i<products.length; i++){
+
+      
+        document.write(`
+    <section class="item">
+        <h2>${products[i].brand}</h2>
+        <p>$${products[i].price}</p>
+        <img src=${products[i].image}>
+    </section>
+    `);
+}
+   </script>
+</main></div>
+</body>
+</html>
