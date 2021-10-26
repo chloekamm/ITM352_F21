@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making Change</title>
+</head>
+<body>
+    <script>
+        //Total amount that we need change for
+
+        var $amount = 73;
+
+        //Maximum amount of quarters 
+
+        $quarters = ($amount/25);
+
+        //Get leftover amount to find the maximum amount of dimes
+
+        $leftover = $amount%25;
+        $dimes = ($leftover/10);
+
+        // Find maximum amount of nickels based on leftover amount
+         $leftover = $amount%10;
+         $nickels = ($leftover/5);
+
+         // Amount of pennies (0-4)
+
+         $pennies = $amount%5;
+
+
+
+
+
+        console.log(`Quarters:%d Dimes:%d Nickels:%d Pennies:%d`, $quarters, $dimes, $nickels, $pennies);
+    </script>
+</body>
+</html>
