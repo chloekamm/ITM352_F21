@@ -5,11 +5,13 @@
 				padding:0;
 				font-family: Sans-Serif;
 				line-height: 1.5em;
+				border: 5px solid black;
+			
 			}
 			
 			#header {
 				background: #BCCE98;
-				height: 100px;
+				height: 75px;
 				float: center;
 				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 			}
@@ -25,58 +27,55 @@
 			}
 			
 			#contentwrapper{
-				float: left;
+				
 				width: 100%;
-				color: darkgreen;
+				color:darkgreen;
 				background-color: lightgray;
+				background-image:
 			}
 			
+			
+		
 			#content {
 				margin-right: 460px; 
 				padding-bottom: 10010px;
 				margin-bottom: -10000px;
 			
+					
+				 
+			
 			}
-			
-			#leftmenu {
-				float: left;
-				width: 250px;
-				margin-left: -460px; 
-				padding-bottom: 10010px;
-				margin-bottom: -10000px;
-				background: lightgreen;
-			}
-			
-			
 			
 			#footer{
-				clear: left;
-				width: 100%;
+
 				background: #BCCE98;
-				text-align: center;
-				padding: 5px 0;
+				height: 100px;
+				float: center;
+				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+				
 			}
 			
+		
 			.innertube{
-				margin: 15px; 
-				margin-top: 0;
+				margin: 0px; 
+				padding-top: 15px;
+				text-align: center;
 			
 			}
-		
-		
-			p {
-				color: #555;
+			main{
+				display: flex;
+  				flex-flow: row wrap;
+  				justify-content: space-around;
+
 			}
-	
-			nav ul {
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
+			img {
+				border: 1px solid rgb(39, 53, 36);
+				border-radius: 10px;
+				padding: 3px;
+				width: 200px;
 			
-			nav ul a {
-				color: darkgreen;
-				text-decoration: none;
-			}
-			
-	
+			  }
+			  .item img {
+				width: 200px;
+				height: 200px; 
+			  }
