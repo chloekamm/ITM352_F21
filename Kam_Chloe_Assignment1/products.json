@@ -1,0 +1,40 @@
+
+
+[
+    {
+        "name": "Soccer Cones",
+        "price": 24.99,
+        "image": 'cones.jpeg',
+        "quantity_available": 8
+    },
+    {
+        "name": "Soccer Ball",
+        "price": 32.99,
+        "image": 'soccerball.jpeg',
+        "quantity_available": 5
+    },
+    {
+        "name": "Soccer Jersey",
+        "price": 75.99,
+        "image": 'jersey.jpeg',
+        "quantity_available": 4
+    },
+    {
+        "name": "Soccer Net",
+        "price": 59.99,
+        "image": 'goal.jpeg',
+        "quantity_available": 5
+    },
+    {
+        "name": "Soccer Cleats",
+        "price": 159.99,
+        "image": 'soccercleats.jpeg',
+        "quantity_available": 10
+    },
+    {
+        "name": "Soccer Shinguards",
+        "price": 32.99,
+        "image": 'shinguards.jpeg',
+        "quantity_available": 9
+    }
+]
