@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- Template by html.am -->
+<html>
+	<script>
+		let params = (new URL(document.location)).searchParams;
+	</script>
+	
+<head>
+	<!-- pulls data of products and locates the style sheet for the design of the website.  -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="./products_data.js"></script>
+
+	<link href="./products-style.css" rel="stylesheet" />
+	<title>Soccer Saver Store </title>
+
+
+
+</head>
+
+<body>
+	<header id="header">
+		<div class="innertube">
+			<h1>Soccer Saver Store </h1>
+			<!-- Connects the "purchase" button to the invoice page to display it -->
+			<form action="./Invoice/invoice.html" method="GET">
+		</div>
+
+
+	</header>
+	<div id="mainwrapper">
+
+		<div id="contentwrapper">
+			<div id="content">
+				<div class="innertube">
+					<!-- An array to display the avaialble products. -->
+					<h1>Available Products: </h1>
+					<p>
+
+					<div>
+						<main>
+							<!-- Line 45 holds the text box for the quantity of items wanting to be purchased. -->
+							<script>
+								for (i = 0; i < products.length; i++) {
+
+									document.write(`
+                                <section class="item">
+                                    <h2>${products[i].brand}</h2>
+                                    <p>$${products[i].price}</p>
+									<label> Quantity</label>
+									<input type="text" placeholder="0" name="quantity${i}">
+                                    <img src=${products[i].image}>
+                                </section>
+                                `);
+								}
+							</script>
+						</main>
+					</div>
+
+					<!-- Submit button for the purchase, which leads to invoice page.  -->
+
+					<input type="submit" value="Purchase these items!">
+					</form>
+</body>
+<!-- Footer for design and display. -->
+<footer id="footer">
+	<div class="footer">
+		<p>Contact us: Soccersaverstore@soccer.com
+			689-999-0000
+
+		</p>
+
+	</div>
+</footer>
+
+</body>
+
+</html>

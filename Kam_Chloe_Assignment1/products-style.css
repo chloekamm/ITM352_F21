@@ -1,27 +1,21 @@
 
-		
+		/* Gives whole website a black border  */
 			body{
-				margin:0;
-				padding:0;
-				font-family: Sans-Serif;
-				line-height: 1.5em;
+				
 				border: 5px solid black;
 			
 			}
-			
-			#header {
-				background: #BCCE98;
-				height: 75px;
-				float: center;
-				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-			}
-			
+			/* Styles header, makes background green, centers text*/
 			#header h1 {
-				margin: 0;
-				padding-top: 15px;
-				text-align: center;
-			}
+				background: #BCCE98;
+				height: 70px;
+				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+				margin: 0px;
+				padding-top: 10px;
 			
+			}
+			/* Takes away empty space on bottom*/
 			#mainwrapper {
 				overflow: hidden;
 			}
@@ -31,25 +25,16 @@
 				width: 100%;
 				color:darkgreen;
 				background-color: lightgray;
-				background-image:
+				
 			}
-			
 			
 		
-			#content {
-				margin-right: 460px; 
-				padding-bottom: 10010px;
-				margin-bottom: -10000px;
-			
-					
-				 
-			
-			}
 			
 			#footer{
 
 				background: #BCCE98;
-				height: 100px;
+				margin:0px;
+				height: 70px;
 				float: center;
 				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 				
@@ -66,12 +51,13 @@
 				display: flex;
   				flex-flow: row wrap;
   				justify-content: space-around;
+				  
 
 			}
 			img {
-				border: 1px solid rgb(39, 53, 36);
-				border-radius: 10px;
-				padding: 3px;
+				border: 3px solid rgb(39, 53, 36);
+				border-radius: 25px;
+				padding: 5px;
 				width: 200px;
 			
 			  }

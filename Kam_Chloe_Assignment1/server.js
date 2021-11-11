@@ -1,21 +1,13 @@
-var products_array = require('./product_data.json');
-
 var express = require('express');
 var app = express();
-
-// Routing 
-
-// monitor all requests
 app.all('*', function (request, response, next) {
-   console.log(request.method + ' to ' + request.path);
-   next();
+    console.log(request.method + ' to path ' + request.path+
+    path+ 'query string' + JSON.stringify(request.query));
+    next();
 });
 
-// process purchase request (validate quantities, check quantity available)
-
-
-// route all other GET requests to files in public 
-app.use(express.static('./public'));
-
-// start server
-app.listen(8080, () => console.log(`listening on port 8080`));
+app.get('/test', function (request, response, next) {
+    response.send(request.method + ' to path ' + request.path+
+    path+ 'query string' + JSON.stringify(request.query));
+});
+app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here to do a callback
