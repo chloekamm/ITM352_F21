@@ -1,3 +1,5 @@
+<link href="./invoicestyle.css" rel="stylesheet" />
+
 <script>
   let params = (new URL(document.location)).searchParams;
   </script>
@@ -13,9 +15,17 @@
     
 
 </script>
+<script> 
 
-<script>
-  var quantities = [1,1,1,1,1,1];
+
+  if( params.has("quantity${i}") && params.get("quantity${i}")>0 ){
+  
+      qty_span.innerHTML = params.get('quantity${i}');
+
+    
+  }
+  
+  var quantities = [1,2,3,4,5,6];
 
   function generate_item_rows(product_quantities_array){
     for(i in products){
@@ -37,7 +47,7 @@
             <td width="43%">${products[i].brand}</td>
             <td align="center" width="11%">${product_quantities_array[i]}<br> <font color= "red" > ${errors.join('<br>')}</td>
             <td width="13%">$${products[i].price}</td>
-            <td width="54%">$${extended_price}</td>
+            <td width="54%">$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
@@ -68,9 +78,9 @@ return returnErrors ? errors : (errors.length == 0)
         <tbody>
           <tr>
             <th style="text-align: center;" width="43%">Item</th>
-            <th style="text-align: center;" width="11%">product quantity</th>
-            <th style="text-align: center;" width="13%">price</th>
-            <th style="text-align: center;" width="54%">extended price</th>
+            <th style="text-align: center;" width="11%">Product quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended price</th>
           </tr>
           <script>
 
