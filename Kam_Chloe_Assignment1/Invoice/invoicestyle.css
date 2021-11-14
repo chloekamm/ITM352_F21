@@ -1,9 +1,23 @@
 body{
     background-color:#BCCE98;
     color:black;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
 
 }
 
 main{
     border: 5px black;
+    margin: 50px;
 }
+table{
+
+    
+}
+image{
+    opacity:20%;
+}
+
+
+
