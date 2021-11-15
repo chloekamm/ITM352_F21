@@ -46,8 +46,8 @@ function process_quantitiy_form (POST, response){
          receipt = '';
         for (i in products){
             let q = POST[`quantity_textbox${i}`];
-            let item = products[i]['item'];
-            let item_price = products[i]['price]'];
+            let model = products[i]['model'];
+            let model_price = products[i]['price]'];
             if (isNonNegInt(q)) {
                 receipt += eval('`' + contents + '`');
             } else{
