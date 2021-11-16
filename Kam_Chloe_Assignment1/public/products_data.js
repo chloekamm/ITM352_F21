@@ -28,3 +28,7 @@ var products = [
  price: 135.99 ,
  image: "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment1/images/soccercleats.jpeg?raw=true" },
 ];
+
+if(typeof exports != 'undefined') {
+    exports.products = products;
+}

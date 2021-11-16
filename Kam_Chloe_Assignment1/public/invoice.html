@@ -2,28 +2,21 @@
 
 <script>
   let params = (new URL(document.location)).searchParams;
+  //code based off invoice 4 wod 
 </script>
-
-
-
 
 <script src="products_data.js">
   /* This file is made to show a table and receipt of certain products. There will be a total of 6 products, with their prices and quantity. */
-
 
 </script>
 
 <script>
 
+  if ( params.has("quantity") ) {
 
-  if (params.has("quantity${i}") && params.get("quantity${i}") > 0) {
-
-    qty_span.innerHTML = params.get('quantity${i}');
-
+    var quantities = JSON.parse(params.get('quantity'));
 
   }
-
-  var quantities = [1, 1, 1, 1, 1, 1];
 
   function generate_item_rows(product_quantities_array) {
     for (i in products) {

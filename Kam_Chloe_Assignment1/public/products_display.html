@@ -3,6 +3,22 @@
 <html>
 	<script>
 		let params = (new URL(document.location)).searchParams;
+	window.onload = () =>  {
+		if(params.has('quantity')) {
+			var quantities = JSON.parse(params.get('quantity'));
+			for(i in quantities) {
+				order_form[`quantity[${i}]`].value = quantities[i];
+			}
+		}
+		if(params.has('errors')) {
+			var errors = JSON.parse(params.get('errors')); 
+			let err_str = '';
+			for(err in  errors) {
+				err_str += errors[err] + '\n';
+			}
+			alert(err_str);
+		}
+	}
 	</script>
 	
 <head>
@@ -14,7 +30,6 @@
 	<title>Soccer Saver Store </title>
 
 
-
 </head>
 
 <body>
@@ -22,7 +37,7 @@
 		<div class="innertube">
 			<h1>Soccer Saver Store </h1>
 			<!-- Connects the "purchase" button to the invoice page to display it -->
-			<form action="./process_form" method="POST">
+			<form name="order_form" action="./process_form" method="POST">
 		</div>
 
 
@@ -47,7 +62,7 @@
                                     <h2>${products[i].brand}</h2>
                                     <p>$${products[i].price}</p>
 									<label> Quantity</label>
-									<input type="text" placeholder="15 Available" name="quantity${i}">
+									<input type="text" placeholder="15 Available" name="quantity[${i}]">
                                     <img src=${products[i].image}>
                                 </section>
                                 `);
