@@ -19,19 +19,32 @@ app.use(express.urlencoded ({extended: true }));
 
 // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
 app.post("/process_form", function (request, response) {
+
+    // check to make user inputs some value
+
+    function validateForm() {
+         for (i in request.body.quantity);
+        if ([Object.keys(errors).length === 0] == "") {
+          alert("Name must be filled out");
+          return false;
+        }
+      }
    // check is quantities are valid (nonnegint and have inventory)
    var errors = {};
-  //  errors["inventory"] =  "We don't have that many in stock";
+  
+
     for(i in request.body.quantity) {
         if(!isNonNegInt(request.body.quantity[i])) {
             console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
             errors['quantity'+i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
+        
         }
     }
-
-  
+    
    let qty_obj = {"quantity": JSON.stringify(request.body.quantity)};
    if(Object.keys(errors).length === 0) {
+      
+
     //If data is valid, create invoice
     response.redirect('./invoice.html?' + qs.stringify(qty_obj));
    } else {
@@ -63,7 +76,6 @@ function process_quantitiy_form (POST, response){
     if(typeof POST['purchase_submit_button'] != 'undefined'){
         var contents = fs.readFileSync('./views/display_quanitities_template.view','utf8');
          receipt = '';
-
         for (i in products){
             let q = POST[`quantity_textbox${i}`];
             let item = products[i]['item'];
@@ -72,7 +84,6 @@ function process_quantitiy_form (POST, response){
                 receipt += eval('`' + contents + '`');
             } else{
                 receipt += `<h3> <font color="red">${q} is not a valid quantity for ${model}! </h3>`;
-
             }
             response.send(receipt);
             response.end();
@@ -80,4 +91,3 @@ function process_quantitiy_form (POST, response){
     }
 }
 */
-

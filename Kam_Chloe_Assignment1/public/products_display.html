@@ -10,6 +10,7 @@
 				order_form[`quantity[${i}]`].value = quantities[i];
 			}
 		}
+		//set up so if errors occur, it will alert the user in a pop up
 		if(params.has('errors')) {
 			var errors = JSON.parse(params.get('errors')); 
 			let err_str = '';
@@ -62,7 +63,7 @@
                                     <h2>${products[i].brand}</h2>
                                     <p>$${products[i].price}</p>
 									<label> Quantity</label>
-									<input type="text" placeholder="15 Available" name="quantity[${i}]">
+									<input type="text" placeholder="10 Available" name="quantity[${i}]">
                                     <img src=${products[i].image}>
                                 </section>
                                 `);
