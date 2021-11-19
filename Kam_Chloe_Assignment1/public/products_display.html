@@ -10,6 +10,7 @@
 				order_form[`quantity[${i}]`].value = quantities[i];
 			}
 		}
+		
 		//set up so if errors occur, it will alert the user in a pop up
 		if(params.has('errors')) {
 			var errors = JSON.parse(params.get('errors')); 
@@ -20,6 +21,22 @@
 			alert(err_str);
 		}
 	}
+
+//code from lab 12
+function isNonNegInt(q, returnErrors = false) {
+    errors = []; // assume no errors at first
+    if (q == '') q = 0; //Blank quantities = 0
+    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value. 
+    else {
+        if(q>15) errors.push('Only 25 in stock'); //Checks quantity
+        if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+
+        if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+
+    }
+    return returnErrors ? errors : (errors.length == 0);
+}
+
 	</script>
 	
 <head>
@@ -29,6 +46,7 @@
 
 	<link href="./products-style.css" rel="stylesheet" />
 	<title>Soccer Saver Store </title>
+
 
 
 </head>
@@ -63,7 +81,7 @@
                                     <h2>${products[i].brand}</h2>
                                     <p>$${products[i].price}</p>
 									<label> Quantity</label>
-									<input type="text" placeholder="10 Available" name="quantity[${i}]">
+									<input type="text" placeholder="Only 25 Available" name="quantity[${i}]">
                                     <img src=${products[i].image}>
                                 </section>
                                 `);
