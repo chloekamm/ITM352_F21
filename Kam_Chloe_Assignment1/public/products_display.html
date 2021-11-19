@@ -80,8 +80,8 @@ function isNonNegInt(q, returnErrors = false) {
                                 <section class="item">
                                     <h2>${products[i].brand}</h2>
                                     <p>$${products[i].price}</p>
-									<label> Quantity</label>
-									<input type="text" placeholder="Only 25 Available" name="quantity[${i}]">
+									<label id="quantity${i}_label"}">${products[i].inventory} in stock</label>
+									<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
                                     <img src=${products[i].image}>
                                 </section>
                                 `);
@@ -91,8 +91,7 @@ function isNonNegInt(q, returnErrors = false) {
 					</div>
 
 					<!-- Submit button for the purchase, which leads to invoice page.  -->
-
-					<input type="submit" value="Purchase these items!">
+					<br><input type="submit" class="button" value="Purchase" id="submit" name="purchase_submit">
 					</form>
 </body>
 <!-- Footer for design and display. -->
