@@ -24,6 +24,7 @@ app.get('/products.js', function (request, response) {
 });
 
 //code from lab 12
+//helps to check validate data
 function isNonNegInt(q, returnErrors = false) {
     errors = []; // assume no errors at first
     if (q == '') q = 0;
@@ -38,6 +39,7 @@ function isNonNegInt(q, returnErrors = false) {
     return returnErrors ? errors : (errors.length == 0);
 }
 //From lab 13 
+//to access inputted data from products.js
 app.use(express.urlencoded ({extended: true }));
 
 // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
@@ -47,17 +49,8 @@ app.post("/process_form", function (request, response) {
 
     // check to make user inputs some value
 
-    /*function validateForm() {
-         for (i in request.body.quantity);
-        if ([Object.keys(errors).length === 0] == "") {
-          alert("Name must be filled out");
-          return false;
-        }
-      }
-      */
    // check is quantities are valid (nonnegint and have inventory)
    var errors = {};
-  // errors['no_quantities'] = 'Please enter a valid quantity!';
 
 
     for(i in request.body.quantity) {
@@ -66,7 +59,12 @@ app.post("/process_form", function (request, response) {
             errors['quantity'+i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
         
         }
+        if((!isNonNegInt)>products[i].inventory){
+            errors['inventory'+i] = ` We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience ` ;
+        
+        
     }
+}
     
    let qty_obj = {"quantity": JSON.stringify(request.body.quantity)};
    if(Object.keys(errors).length === 0) {
@@ -79,7 +77,7 @@ app.post("/process_form", function (request, response) {
     response.redirect('./products_display.html?' + qs.stringify(qty_obj));
    }
 });
-
+//route all other GEt requests to files in the public folder. 
 app.use(express.static('./public'));
 
 app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here to do a callback
