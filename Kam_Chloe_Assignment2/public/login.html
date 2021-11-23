@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <script src="./products_data.js"></script>
   <script>
     //remind the users if they have errors on username and password
     let params = (new URL(document.location)).searchParams;
     window.onload = function () {
-        if (params.has('LogError')) {
+        if (params.has('LoginError')) {
             alert('Invalid Username or Password');
+        }
+        //Takes data from url when page is invalid and puts it back (makes inputs sticky)
+        if (params.has("StickyLoginUser")) {
+            StickyLoginUser = params.get("StickyLoginUser")
         }
     }
     </script>
@@ -29,10 +35,11 @@
          <div class="con">
          <!--     Start  header Content  -->
          <header class="head-form">
-          <form name="login_form" action="./login" method="POST">
+          <form name="login_form" action="./invoice.html" method="POST">
+            
             <h2>Login</h2>
             <!--    A message to greet the customers and tell them what to do -->
-            <p>Ready to check out? Please login first! </p>
+            <p>Before you can check out, please sign in :)</p>
             <p>Don't have an account? Sign up now! </p>
          </header>
          <!--     End  header Content  -->
@@ -60,18 +67,18 @@
             <br>
       <!--        buttons -->
       <!--      button LogIn -->
-            <button class="log-in" type="submit" value="Login" name="login"> Login </button>
+            <button class="log-in" type="submit" value="Login" name="login"> Login
+              </button>
          </div>
         
       <!--   other buttons -->
          <div class="other">
      
       <!--     Sign Up button -->
-            <button class="btn submits sign-up">
-              <script>
-                document.write (`<a href="./register.html${location.search}">Sign up for an account </a>`);
-              </script>
-              
+      <div>
+        <input type="button"  value="Register" id = "register"
+        onclick="window.location='./registration.html?' + document.location.search;">
+    </div>
       <!--         Sign Up font icon -->
             <i class="fa fa-user-plus" aria-hidden="true"></i>
             </button>

@@ -1,0 +1,47 @@
+body{
+    background: linear-gradient( to bottom, rgb(219, 217, 217), lightblue);;
+   
+    color:black;
+    margin-bottom: 0px;
+  
+
+}
+
+h1{
+    font-size: large;
+    float: left;
+    margin-right: 50px;
+    margin-top:60px;
+}
+
+
+table{
+
+   background: url("https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment1/images/background.jpeg?raw=true") ;
+   margin-right: 100px;
+   border-spacing: 10px 10px;
+
+}
+tr:hover {
+    background-color: lightgray;
+    }
+
+div{
+    float:left;
+    margin-top: 5px;
+  
+}
+
+footer{
+    margin:0px;
+    height: 50px;
+ 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+
+
+
+
+
+
