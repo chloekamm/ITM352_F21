@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    //remind the users if they have errors on username and password
+    let params = (new URL(document.location)).searchParams;
+    window.onload = function () {
+        if (params.has('LogError')) {
+            alert('Invalid Username or Password');
+        }
+    }
+    </script>
+
+  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+  <script>
+    document.write(`<form action="login" method="post">`);
+  </script>
+    
+    <div class="overlay">
+      <!-- LOGN IN FORM by Omar Dsoky -->
+      <form>
+         <!--   con = Container  for items in the form-->
+         <div class="con">
+         <!--     Start  header Content  -->
+         <header class="head-form">
+          <form name="login_form" action="./login" method="POST">
+            <h2>Login</h2>
+            <!--    A message to greet the customers and tell them what to do -->
+            <p>Ready to check out? Please login first! </p>
+            <p>Don't have an account? Sign up now! </p>
+         </header>
+         <!--     End  header Content  -->
+         <br>
+         <div class="field-set">
+           
+            <!--   user name -->
+               <span class="input-item">
+                 <i class="fa fa-user-circle"></i>
+               </span>
+              <!--   user name Input-->
+               <input class="form-input" type="text" placeholder="Enter Username" name="username" id="username" required>
+           
+            <br>
+           
+                 <!--   Password -->
+           
+            <span class="input-item">
+              <i class="fa fa-key"></i>
+             </span>
+            <!--   Password Input-->
+            <input class="form-input" type="password" placeholder="Enter Password" name="password" onkeyup="" required>
+           
+           
+            <br>
+      <!--        buttons -->
+      <!--      button LogIn -->
+            <button class="log-in" type="submit" value="Login" name="login"> Login </button>
+         </div>
+        
+      <!--   other buttons -->
+         <div class="other">
+     
+      <!--     Sign Up button -->
+            <button class="btn submits sign-up">
+              <script>
+                document.write (`<a href="./register.html${location.search}">Sign up for an account </a>`);
+              </script>
+              
+      <!--         Sign Up font icon -->
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            </button>
+      <!--      End Other the Division -->
+         </div>
+           
+      <!--   End Conrainer  -->
+        </div>
+        
+        <!-- End Form -->
+      </form>
+      </div>
+    
+    </div>
+
+  </form>
+  <script>
+     login.action += document.location.search; //saves the query string from products page for invoice 
+  </script>
+</body>
+</html>
