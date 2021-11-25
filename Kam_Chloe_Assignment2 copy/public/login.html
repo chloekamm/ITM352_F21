@@ -7,15 +7,16 @@
     //remind the users if they have errors on username and password
     let params = (new URL(document.location)).searchParams;
     window.onload = function () {
-      if (params.has('errors')) {
+      if (params.has('logerrors')) {
           console.log("invalid");
-          alert('Fix the following errors: \n' + params.get('errors'));
+          alert('Fix the following errors: \n' + params.get('logerrors'));
           }
     }
         //Takes data from url when page is invalid and puts it back (makes inputs sticky)
-        if (params.has("StickyLoginUser")) {
+       if (params.has("StickyLoginUser")) {
             StickyLoginUser = params.get("StickyLoginUser")
         }
+        
     
     </script>
 
@@ -28,6 +29,7 @@
 <body>
   <script>
     document.write(`<form action="login" method="post">`);
+  
   </script>
     
     <div class="overlay">

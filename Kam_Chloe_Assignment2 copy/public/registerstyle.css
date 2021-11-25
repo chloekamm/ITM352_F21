@@ -9,11 +9,10 @@ body {
     /*   the main font */
         font-family: 'Abel', sans-serif;
     opacity: .95;
-    /* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+    
     }
     
     
-    /* End body rules */
     
     /* Start form  attributes */
     form {
@@ -56,9 +55,6 @@ body {
                 padding-top: 5px;}
     
     
-    
-    /* //////////////////////////////////////////// */
-    /* //////////////////////////////////////////// */
     
     
     .input-item {
@@ -124,9 +120,7 @@ body {
         margin-left: 2%;
     }
     
-    /*       Forgot Password button FAF3DD  */
-    .frgt-pass {background: transparent;
-      float:left;}
+    
     
     /*     Sign Up button  */
     .sign-up {background: #b9f4e8;
