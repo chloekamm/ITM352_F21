@@ -14,6 +14,7 @@ const { response } = require('express');
 
 const qs = require('querystring');
 const { request } = require('https');
+var errors = {}; //needed to validate data 
 
 // Monitors all requests
 app.all('*', function (request, response, next) {
@@ -33,11 +34,12 @@ if (fs.existsSync(filename)) {
     console.log(`${filename} has ${file_stats.size} characters`); //displayed in console 
 } else {
     console.log(`Hey! ${filename} does not exist!`) //Displayed in console if file cannot be found 
+    users_reg_data = {};
 }
 
-app.get("/", function (request, response) {
-    response.send("Nothing here!");
-});
+//app.get("/", function (request, response) {
+    //response.send("Nothing here!");
+//});
 app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
 
 
@@ -61,10 +63,15 @@ app.use(express.urlencoded({ extended: true })); // if you get a POST request fr
 
 //Register process
 app.post("/register", function (request, response) {
-    username = request.body['username'];
+    username = request.body.username.toLowerCase(); //So username is not case sensitive
+
+  
     // process a simple register form
 
     //Checking if user input is valid- 
+    if(typeof users_reg_data[username] !='undefined'){
+        errors['username_taken'] = `Hey! ${username} is already registered!`;
+    }
     if (typeof users_reg_data[username] == 'undefined' && (request.body['password'] == request.body['repeat_password'])) {
         users_reg_data[username] = {};
         users_reg_data[username].password = request.body['password'];
@@ -83,45 +90,37 @@ app.post("/register", function (request, response) {
     }
 });
 
-/*app.get("/login", function (request, response) {
-    // Give a simple login form
-    str = `
-<body>
-<form action="" method="POST">
-<input type="text" name="username" size="40" placeholder="enter username" ><br />
-<input type="password" name="password" size="40" placeholder="enter password"><br />
-<input type="submit" value="Submit" id="submit">
-</form>
-</body>
-`;
-    response.send(str);
-});
-*/
 
 app.post("/login", function (request, response) {
+
+
+    
     // Process login form POST and redirect to logged in page if ok, back to login page if not
-    let login_username = request.body['username'];
+    let login_username = request.body['username'].toLowerCase();  //So user is not case sensitive. 
     let login_password = request.body['password'];
     // check if username exists, then check password entered matches password stored
-    var errors = {}; //needed to validate data 
-
-    //So user is not case sensitive. 
-    //login_username = request.body.toLowerCase();  
+    
     if (typeof users_reg_data[login_username] != 'undefined') { // if user matches what we have
         if (users_reg_data[login_username]['password'] == login_password) {
-            response.redirect('./invoice.html'+ queryString.stringify(req.query));
+            response.redirect('./invoice.html?'+qs.stringify(request.query));
             console.log(`successfully logged in`);
             response.send(`${login_username} is logged in`);
              
         } else {
             //errors['logerrors']=  `${login_password} is incorrect for ${login_username} `;
+           
             response.redirect(`./login.html?err=incorrect password for ${login_username} `);
             console.log('password is incorrect, please try again');
+            response.send(`Wrong Password`);
+            alert(`password incorrect`);
+
         }
+        return;
+
     } else {
         response.redirect(`./login.html?err=${login_username} does not exist`);
         console.log('username does not exist, please register');
-        
+     
     }
 
     //response.send('Processing login' + JSON.stringify(request.body)) // request.body holds the username & password (the form data when it got posted)
@@ -156,9 +155,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
 app.post("/process_form", function (request, response) {
-
-    let POST = request.body;
-
+    
     // check to make user inputs some value
 
     // check is quantities are valid (nonnegint and have inventory)
@@ -183,10 +180,10 @@ app.post("/process_form", function (request, response) {
 
 
         //If data is valid, go to login to then direct user to invoice once logged in. 
-        response.redirect('./login.html?' + qs.stringify(qty_obj));
+        response.redirect('./login.html?' );
     } else {
         qty_obj.errors = JSON.stringify(errors);
-        response.redirect('./products_display.html?' + qs.stringify(qty_obj));
+        response.redirect('./products_display.html?' );
     }
 });
 //route all other GEt requests to files in the public folder. 

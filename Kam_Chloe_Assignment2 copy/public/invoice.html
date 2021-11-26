@@ -15,6 +15,12 @@
   
 <script>
 
+let params = (new URL(document.location)).searchParams;
+  if (params.has('username')) {
+          var name = params.get('name');
+          var username = params.get('username');
+        }
+
   if (params.has("quantity")) {
 
     var quantities = JSON.parse(params.get('quantity'));
@@ -81,6 +87,15 @@
     <div class="innertube">
 
       <h1>
+        <script>
+          //show user's name on invoice
+         
+            document.write (`
+              <h1 align="center"> Aloha! Thank you for purchasing with us!<h1>
+            `)
+      
+        </script>
+        <br>
         <b>THANK YOU FOR ORDERING FROM <br> SOCCER SAVER STORE!</b>
         <br>
         
