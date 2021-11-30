@@ -1,0 +1,119 @@
+<!--Chloe Kam -->
+<!--Assignment 2 -->
+<!--Login page, loaded after user purchases products and data is validated -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script src="./products_data.js"></script>
+  
+
+  <link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+
+<body>
+  <!--To display alert when user inputs password or username incorrectly.-->
+  <script>
+
+    window.onload = function () {
+        let params = (new URL(document.location)).searchParams;
+        //if errorMessage is in qry string then put up alert with error message
+         if (params.has("loginMessage")) {
+         alert(params.get("loginMessage"));
+        }
+         //make username sticky after inputting wrong password
+         if (params.has('wrong_pass')) {
+          //username_tag is the ID of username box
+           username_tag.value = params.get('wrong_pass')
+           }
+    
+          }
+
+      </script>
+ 
+  <script>
+    document.write(`<form action="login" method="post">`);
+      
+  </script>
+
+  <div class="overlay">
+    <!-- LOGN IN FORM by Omar Dsoky -->
+    <form>
+      <!--   con = Container  for items in the form-->
+      <div class="con">
+        <!--     Start  header Content  -->
+        <header class="head-form">
+          <form name="login_form" action="./invoice.html" method="POST">
+
+            <h2>Login</h2>
+            <!--    A message to greet the customers and tell them what to do -->
+            <p>Before you can check out, please sign in :)</p>
+            <p>Sign up now if you don't have an account! </p>
+        </header>
+        <!--     End  of header content-->
+        <br>
+
+
+<!--Code for error messages- code example from Tina Vo-->
+<div class="section">
+
+  <!--span id for incorrect username error message-->
+  <span id="incorrect_username_errors"></span>
+  <!--username input box-->
+  <input id="username_tag" type="text" name="username" class="input" style="padding:8px"
+      placeholder="Enter username">
+
+</div>
+
+<div class="section">
+  <!--span id for incorrect password error message-->
+  <span id="incorrect_password_errors"></span>
+  <!--password input box-->
+  <input type="password" name="password" class="input" style="padding:8px"
+      placeholder="Enter password">
+</div>
+
+      <!--End of trying code for errors messages-->
+
+      <div>
+      
+          <!--        buttons -->
+          <!--      button LogIn -->
+          <button class="log-in" type="submit" value="Login" name="login"> Login Here
+          </button>
+        </div>
+
+      
+
+          <!--     Sign Up button -->
+          <div>
+            <input type="button" value="Register" id="register"
+              onclick="window.location='./register.html?' + document.location.search;">
+          </div>
+          
+         
+        </div>
+
+        <!--   End Conrainer  -->
+      </div>
+
+      <!-- End Form -->
+    </form>
+  </div>
+
+  </div>
+
+  </form>
+  <script>
+   // login.action += document.location.search; //saves the query string from products page for invoice 
+  </script>
+</body>
+
+</html>
