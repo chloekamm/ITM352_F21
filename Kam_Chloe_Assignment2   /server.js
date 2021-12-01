@@ -1,3 +1,7 @@
+//Chloe Kam 
+//Assignment 2
+//This is server for the store app, based on lab13 and screencast 
+
 //This is server for the store app, based on lab13 and screencast 
 
 var products_array = require('./public/products_data');
@@ -90,12 +94,11 @@ var incorrectLogin_str = '';
     // check if username exists, then check password entered matches password stored
     
     var log_errors = []; //start with no errors 
-    if (typeof users_reg_data[login_username] != 'username') { // if user matches what we have
+    if (typeof users_reg_data[login_username] != 'undefined') { // if user matches what we have
         if (users_reg_data[login_username]['password'] == login_password) {
-            let params = new URLSearchParams(saved_user_quantity_array);
             saved_user_quantity_array['username'] = login_username;
             saved_user_quantity_array['email'] = users_reg_data[login_username]['email']; 
-            
+            let params = new URLSearchParams(saved_user_quantity_array);
 
             response.redirect('./invoice.html?'+ params.toString());
           
