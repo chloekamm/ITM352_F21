@@ -1,0 +1,54 @@
+{ 
+    "Soccer Cleats":[ 
+        {
+            "name": "Kids Cleats",
+            "quantity_available": 10,
+            "price": 59.99
+            
+        },
+        {
+            "name": "Womens Cleats",
+            "quantity_available": 10,
+            "price": 129.99
+        },
+        {
+            "name": "Mens Cleats",
+            "quantity_available": 10,
+            "price": 129.99
+        }
+    ],
+    "Soccer Balls": [ 
+        {
+            "name": "Blue Soccer Ball",
+            "quantity_available": 10,
+            "price": 12.99
+        },
+        {
+            "name": "White Soccer Ball",
+            "quantity_available": 10,
+            "price": 14.99
+        },
+        {
+            "name": "Black Soccer Ball",
+            "quantity_available": 10,
+            "price": 22.99
+        }
+    ],
+    "Soccer Uniforms": [
+        {
+            "name": "Jersey",
+            "quantity_available": 10,
+            "price": 54.99
+        },
+        {
+            "name": "Shorts",
+            "quantity_available": 10,
+            "price": 19.99
+        },
+        {
+            "name": "Socks",
+            "quantity_available": 10,
+            "price": 12.99
+        }
+    ]
+}
