@@ -4,13 +4,13 @@
 
 //This is server for the store app, based on lab13 and screencast 
 
-var products_array = require('./public/products_data');
+var products_array = require('./products_data');
 
 var express = require('express');
 var app = express();
 var myParser = require("body-parser");
-var data = require('./public/products_data.js');
-var products = data.products;
+var products = require('./products_data.json');
+
 var filename = 'user_data.json';
 const fs = require('fs');
 
@@ -96,10 +96,16 @@ var incorrectLogin_str = '';
     var log_errors = []; //start with no errors 
     if (typeof users_reg_data[login_username] != 'undefined') { // if user matches what we have
         if (users_reg_data[login_username]['password'] == login_password) {
-            saved_user_quantity_array['username'] = login_username;
-            saved_user_quantity_array['email'] = users_reg_data[login_username]['email']; 
-            let params = new URLSearchParams(saved_user_quantity_array);
+            
+            let params = new URLSearchParams();
+            params.append('quantity',JSON.stringify( saved_user_quantity_array));
+            params.append('username',login_username);
+            params.append('email',users_reg_data[login_username]['email']);
 
+            //Remove items purchased from qunatity available 
+            for(let i in saved_user_quantity_array) {
+                products[i].quantity_available -= Number(saved_user_quantity_array[i]);
+            }
             response.redirect('./invoice.html?'+ params.toString());
           
             console.log(`successfully logged in`);
@@ -129,7 +135,7 @@ var incorrectLogin_str = '';
 
 
 //Get request for products data
-app.get('/products.js', function (request, response) {
+app.get('/products_data.js', function (request, response) {
     response.type('.js');
     var products_str = `var products = ${JSON.stringify(products)};`;
     response.send(products_str);
@@ -163,29 +169,32 @@ app.post("/process_form", function (request, response) {
     // check is quantities are valid (nonnegint and have inventory)
     var errors = {};
 
-
-    for (i in request.body.quantity) {
+    //Check quantities requested 
+    for (let i in request.body.quantity) {
+        //Check to see if quantity is a non-negative interger
         if (!isNonNegInt(request.body.quantity[i])) {
             console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
             errors['quantity' + i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
 
         }
-        if ((!isNonNegInt) > products[i].inventory) {
-            errors['inventory' + i] = ` We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience `;
+        // Check If the quantity asked for it more than the quantity available
+        if (request.body.quantity[i] > products[i].quantity_available) {
+            errors['quantity_available' + i] = ` We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience `;
 
 
         }
     }
 
-    let qty_obj = { "quantity": JSON.stringify(request.body.quantity) };
+   
     if (Object.keys(errors).length === 0) {
         // save user quantities on server for later use in invoice (note: another user after will overwrite saved data)
-        saved_user_quantity_array = qty_obj;
+        saved_user_quantity_array = request.body.quantity;
         //If data is valid, go to login to then direct user to invoice once logged in. 
-        response.redirect('./login.html?' );
+        response.redirect('./login.html');
     } else {
-        qty_obj.errors = JSON.stringify(errors);
-        response.redirect('./products_display.html?' );
+
+       
+        response.redirect(`./products_display.html?error_obj=${JSON.stringify(errors)}&quantity=${JSON.stringify(request.body.quantity)}` );
     }
 });
 //route all other GEt requests to files in the public folder. 

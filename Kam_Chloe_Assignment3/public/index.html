@@ -6,6 +6,10 @@
 <!--Code from smartphone products3-->
 <html lang="en">
 <head>
+
+   
+  
+        
     <style>
         body{
         text-align:center;
@@ -17,16 +21,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soccer Store</title>
+
 </head>
 <body>
     <h1>Soccer Saver Store</h1>
     <!--Links the product_display.html file so the user has access 
         to the order page and can purchase the items  -->
-    <a href="./products_display.html">
+
+        <head>
+            <!--Code from examples from assignment 3-->
+            <script src="./functions.js"></script> 
+            <script>
+            var products_data;
+            loadJSON('get_products_data', function(response) {
+                 // Parsing JSON string into object
+                 products_data = JSON.parse(response);
+            });
+            var this_product_key = ''
+            </script>
+            </head>
+            <body>
+                Go to: <br>
+            <script> nav_bar(this_product_key, products_data);</script>
+            </body>
+            </html>
+   <!--<a href="./products_display.html">
         <img src="https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment1/images/indexbackground.jpeg?raw=true" height="50%" width="50%" >
         
     </a>
     <h1>Click the image to enter store!</h1>
+-->
+<div class="quote">
+    <h1>EVERYTHING YOU NEED FOR SOCCER</h1>
+    <h1>AT A SUPER SAVER COST!</h1>
+</div>
+<input type="button" class="button" id="button_to_shop" value="Click Here To Shop Now"
+onclick="window.location.href = './products_display.html?prod_key=Stickers' + document.location.search;">
+
+
     
 </body>
 </html>

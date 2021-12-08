@@ -19,6 +19,15 @@ const qs = require('querystring');
 var errors = {}; //needed to validate data 
 var saved_user_quantity_array; // to tmp store user  selected quantities until needed for invoice
 
+// cookies and sessions 
+var cookieParser = require('cookie-parser'); // setup cookie-parser
+var session = require('express-session'); // setup express sessions
+
+app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
+
+app.use(cookieParser()); // cookie parser
+
+
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
@@ -40,7 +49,6 @@ if (fs.existsSync(filename)) {
     users_reg_data = {};
 }
 
-app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
 
 
 //Register process
