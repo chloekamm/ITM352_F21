@@ -163,7 +163,7 @@ app.post("/process_form", function (request, response) {
     // check is quantities are valid (nonnegint and have inventory)
     var errors = {};
 
-
+   
     for (i in request.body.quantity) {
         if (!isNonNegInt(request.body.quantity[i])) {
             console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
@@ -179,6 +179,8 @@ app.post("/process_form", function (request, response) {
 
     let qty_obj = { "quantity": JSON.stringify(request.body.quantity) };
     if (Object.keys(errors).length === 0) {
+
+       
         // save user quantities on server for later use in invoice (note: another user after will overwrite saved data)
         saved_user_quantity_array = qty_obj;
         //If data is valid, go to login to then direct user to invoice once logged in. 

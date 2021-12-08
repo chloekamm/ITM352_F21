@@ -19,16 +19,14 @@ const qs = require('querystring');
 var errors = {}; //needed to validate data 
 var saved_user_quantity_array; // to tmp store user  selected quantities until needed for invoice
 
+// Monitors all requests
+app.all('*', function (request, response, next) {
+    console.log(request.method + ' to' + request.path);
+    next();
+});
 
 //code from assignment2 examples-used to login
 //code from lab14 Ex3 
-
-// cookies and sessions 
-var cookieParser = require('cookie-parser'); // setup cookie-parser
-var session = require('express-session'); // setup express sessions
-
-app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
-
 
 var filename = 'user_data.json';
 if (fs.existsSync(filename)) {
@@ -42,23 +40,7 @@ if (fs.existsSync(filename)) {
     users_reg_data = {};
 }
 
-
-// code express and cookieParser based on lab 13 ex3
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// Monitors all requests
-app.all('*', function (request, response, next) {
-    console.log(request.method + ' to' + request.path);
-    next();
-});
-
-//Get request for products data
-app.get('/products.js', function (request, response) {
-    response.type('.js');
-    var products_str = `var products = ${JSON.stringify(products)};`;
-    response.send(products_str);
-});
+app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
 
 
 //Register process
@@ -146,6 +128,12 @@ var incorrectLogin_str = '';
 });
 
 
+//Get request for products data
+app.get('/products.js', function (request, response) {
+    response.type('.js');
+    var products_str = `var products = ${JSON.stringify(products)};`;
+    response.send(products_str);
+});
 
 
 //code from lab 12

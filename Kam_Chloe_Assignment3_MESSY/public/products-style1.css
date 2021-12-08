@@ -1,0 +1,10 @@
+/* Gives whole website a black border  */
+body{
+				
+    border: 10px solid black;
+    background-color: rgb(190, 219, 190);
+}
+
+h1{
+    background-color: light grey;
+}
