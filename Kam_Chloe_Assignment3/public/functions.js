@@ -1,8 +1,5 @@
-//Chloe Kam 
-//Assignment 3
-//this is a naviagtion bar so we are able to access different pages from each page .
 
-//From Assignment 3 Example Codes 
+
 // This function asks the server for a "service" and converts the response to text. 
 function loadJSON(service, callback) {   
     var xobj = new XMLHttpRequest();
@@ -23,6 +20,6 @@ function nav_bar(this_product_key, products_data) {
     // This makes a navigation bar to other product pages
     for (let products_key in products_data) {
         if (products_key == this_product_key) continue;
-        document.write(`<a href='./products_displau.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
+        document.write(`<a href='./products_display.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
     }
 }
