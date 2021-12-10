@@ -40,6 +40,7 @@
             "price": 22.99
         }
     ],
+
     "Soccer Uniforms": [
         {
             "name": "Jersey",
@@ -58,6 +59,27 @@
             "quantity_available": 25,
             "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/socks.jpeg?raw=true" ,
             "price": 12.99
+        }
+    ],
+    
+    "Accessories": [
+        {
+            "name": "Practice Cones",
+            "quantity_available": 25,
+            "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/jersey.jpeg?raw=true" ,
+            "price": 12.99
+        },
+        {
+            "name": "Practice Net",
+            "quantity_available": 25,
+            "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/shorts.jpeg?raw=true" ,
+            "price": 19.99
+        },
+        {
+            "name": "Practice Tee",
+            "quantity_available": 25,
+            "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/socks.jpeg?raw=true" ,
+            "price": 14.99
         }
     ]
 }

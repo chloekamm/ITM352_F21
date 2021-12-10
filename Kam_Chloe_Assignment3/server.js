@@ -9,7 +9,7 @@ var products_array = require('./products_data');
 var express = require('express');
 var app = express();
 var myParser = require("body-parser");
-var products = require('./products_data.json');
+var products_data = require('./products.json');
 
 var filename = 'user_data.json';
 const fs = require('fs');
@@ -143,7 +143,7 @@ var incorrectLogin_str = '';
 
 
 //Get request for products data
-app.get('/products_data.js', function (request, response) {
+app.get('./products.json', function (request, response) {
     response.type('.js');
     var products_str = `var products = ${JSON.stringify(products)};`;
     response.send(products_str);
