@@ -185,17 +185,6 @@ app.post("/process_form", function (request, response) {
         }
     }
 
-   
-    if (Object.keys(errors).length === 0) {
-        // save user quantities on server for later use in invoice (note: another user after will overwrite saved data)
-        saved_user_quantity_array = request.body.quantity;
-        //If data is valid, go to login to then direct user to invoice once logged in. 
-        response.redirect('./login.html');
-    } else {
-
-       
-        response.redirect(`./products_display.html?error_obj=${JSON.stringify(errors)}&quantity=${JSON.stringify(request.body.quantity)}` );
-    }
 });
 //route all other GEt requests to files in the public folder. 
 app.use(express.static('./public'));

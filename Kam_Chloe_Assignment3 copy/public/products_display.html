@@ -49,13 +49,20 @@
 <head>
 	<!-- pulls data of products and locates the style sheet for the design of the website.  -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="./products_data.js"></script>
+	<script src="products.json"></script>
 
 	<link href="./products-style.css" rel="stylesheet" />
 	<title>Soccer Saver Store </title>
 	<script src="./functions.js"></script>
 
-	<script>
+	
+				
+			  </div>
+        </div>
+       
+        </div>
+      </div>
+	  <script>
 		// get the query string
 		if (params.has('products_key')) {
 		  var products_key = params.get('products_key');
@@ -69,13 +76,14 @@
 		  products_data = JSON.parse(response);
 		});
 	  </script>
-	<script> 
-        nav_bar(products_key, products_data);
-      </script>
-  
-  <script>
-    products = products_data[products_key]; // get the particular products to display
-  </script>
+
+<div class="navbar">
+	<div class="items_right">
+		<a href="./index.html">Home</a>
+		
+		<a href="./login.html">Login</a>
+		<a href="./cart.html">Cart</a>
+ 
 
 </head>
 
@@ -83,9 +91,16 @@
 	<header id="header">
 		<div class="innertube">
 			<h1>Soccer Saver Store </h1>
-			<!-- Connects the "purchase" button to the invoice page to display it -->
+			<script>
+				products = products_data[products_key]; // get the particular products to display
+			  </script>
+					<script> 
+						nav_bar(products_key, products_data);
+					  </script>
+			<!-- Connects the "purchase" button to the invoice page to display it 
 			<form name="order_form" action="./process_form" method="POST">
 		</div>
+	-->
 
 
 	</header>
@@ -100,26 +115,25 @@
 
 					<div>
 						<main>
-							<!-- Line 45 holds the text box for the quantity of items wanting to be purchased. -->
 							<script>
-					//make this in loop not to make the code complexed
-					for (i in products) {
-									document.write(`
-					<section class="item">
-						<h2><span class="w3-center w3-tag w3-dark-grey w3-round"><b>${products[i].brand}</b></h2>
-							<p><span class="w3-left w3-tag w3-dark-grey w3-round">${products[i].quantity_available} in stock </span></p>
-					
-						<p><span class="w3-left w3-tag w3-dark-grey w3-round">$${products[i].price}</span></p>
-						
-						<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-						<div id="quantity[${i}]_errordiv"></div>
 
-						<div class="img_wrap">
-						<img src="${products[i].image}"></div>
-					</section>
-						`);
-								}
+
+          document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
+          for (i in products) {
+            document.write(`
+              <div class="w3-quarter">
+              <img src="${products[i].image}" style="width:50%">
+              <h2>${products[i].name}</h2> 
+              <p><span>$${products[i].price} | Quantity Available: ${products[i].quantity_available} </span></p> 
+              <label id="quantity${i}_label"}"> Enter a quantity</label> 
+              <input type = "text" placeholder = "0" name="quantity${i}" maxlength="3" size="5"onkeyup = "checkQuantityTextbox(this);">              
+              </div>`);
+          }
+    
+								
 							</script>
+
+							
 						</main>
 					</div>
 

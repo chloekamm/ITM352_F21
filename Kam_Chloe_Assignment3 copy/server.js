@@ -9,7 +9,7 @@ var products_array = require('./products_data');
 var express = require('express');
 var app = express();
 var myParser = require("body-parser");
-var products = require('./products_data.json');
+var products_data = require('./products.json');
 
 var filename = 'user_data.json';
 const fs = require('fs');
@@ -19,11 +19,19 @@ const qs = require('querystring');
 var errors = {}; //needed to validate data 
 var saved_user_quantity_array; // to tmp store user  selected quantities until needed for invoice
 
+
+
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
     next();
 });
+
+app.post("/get_products_data", function (request, response) {
+    response.json(products_data);
+});
+
+
 
 //code from assignment2 examples-used to login
 //code from lab14 Ex3 
@@ -135,7 +143,7 @@ var incorrectLogin_str = '';
 
 
 //Get request for products data
-app.get('/products_data.js', function (request, response) {
+app.get('./products.json', function (request, response) {
     response.type('.js');
     var products_str = `var products = ${JSON.stringify(products)};`;
     response.send(products_str);
