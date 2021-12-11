@@ -4,7 +4,7 @@
 
 //This is server for the store app, based on lab13 and screencast 
 
-var products_array = require('./products_data');
+//var products_data = require('./products_data');
 
 var express = require('express');
 var app = express();
@@ -19,16 +19,30 @@ const qs = require('querystring');
 var errors = {}; //needed to validate data 
 var saved_user_quantity_array; // to tmp store user  selected quantities until needed for invoice
 
-
+//Needed to applie cookies and sessions
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+//From examples from assignment 3
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
 // Monitors all requests
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);
     next();
 });
-
+//Get request for products data
 app.post("/get_products_data", function (request, response) {
     response.json(products_data);
+});
+//Request to get cart function
+app.get("/get_cart", function (request, response) {
+    response.json(request.session.cart);
+})
+// routing
+app.get("/product_data.js", function (request, response, next) {
+    response.type('.js');
+    var products_str = `var products_data = ${JSON.stringify(products_data)};`;
+    response.send(products_str);
 });
 
 
@@ -49,6 +63,7 @@ if (fs.existsSync(filename)) {
 }
 
 app.use(express.urlencoded({ extended: true })); // if you get a POST request from a URL it will put the request in the body so you can use the data
+
 
 
 //Register process
@@ -114,9 +129,15 @@ var incorrectLogin_str = '';
             for(let i in saved_user_quantity_array) {
                 products[i].quantity_available -= Number(saved_user_quantity_array[i]);
             }
-            response.redirect('./invoice.html?'+ params.toString());
+           //Need to figure out a way to display username to know user is logged in. 
+            //console.log(`${request.cookies} is logged in`); 
+
+             //display name on products display
+           
+            console.log(`${login_username} successfully logged in`);
+            response.redirect('./products_display.html?products_key=Soccer%20Cleats');
           
-            console.log(`successfully logged in`);
+           
           return;
              
         } else {
@@ -142,12 +163,6 @@ var incorrectLogin_str = '';
 });
 
 
-//Get request for products data
-app.get('./products.json', function (request, response) {
-    response.type('.js');
-    var products_str = `var products = ${JSON.stringify(products)};`;
-    response.send(products_str);
-});
 
 
 //code from lab 12
@@ -167,44 +182,71 @@ function isNonNegInt(q, returnErrors = false) {
 }
 //From lab 13 
 //to access inputted data from products.js
-app.use(express.urlencoded({ extended: true }));
+app.post("/add_to_cart", function (request, response, next) {
+    let POST = request.body;
+    var products_key = request.body['products_key']; // get the product key sent from the form post
+    // Validations 
+    var errors = {}; //assume no errors to start
+    var empty = true // assume no quantities entered
+    var quantity_array = [];
 
-// Get the quanitity data from the order form, then check it and if all good send it to the invoice, if not send the user back to purchase page
-app.post("/process_form", function (request, response) {
-    
-    // check to make user inputs some value
-
-    // check is quantities are valid (nonnegint and have inventory)
-    var errors = {};
-
-    //Check quantities requested 
-    for (let i in request.body.quantity) {
-        //Check to see if quantity is a non-negative interger
-        if (!isNonNegInt(request.body.quantity[i])) {
-            console.log(`${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`);
-            errors['quantity' + i] = `${request.body.quantity[i]} is not a valid quantity for ${products[i].brand}`;
-
+    for (let i in products_data[products_key]) {
+        q = POST['quantity' + i];
+        //Checks user input for negative number or non number inputs. Notifies them if input is invalid. 
+        if (isNonNegInt(q) == false) {
+            errors['invalid' + i] = `${q} is not a valid quantity for ${products_data[products_key][i].name}`;
+            console.log(`${q} is not a valid quantity for ${products_data[products_key][i].name}`);
         }
-        // Check If the quantity asked for it more than the quantity available
-        if (request.body.quantity[i] > products[i].quantity_available) {
-            errors['quantity_available' + i] = ` We do not have ${request.body.quantity[i]} products in stock for ${products[i].brand} sorry for inconvenience `;
-
-
+        //Validates if there is enough quantity of item in stock, notifys user if not
+        if (q > products_data[products_key][i].quantity_available) {
+            errors['quantity' + i] = `${q} items are not available for ${products_data[products_key][i].name}, only ${products_data[products_key][i].quantity_available} in stock `;
+        }
+        if (q > 0) {
+            empty = false;
+            console.log("Some quantities inputted.")
+        } else if ((typeof errors['invalid' + i] != 'undefined') && (typeof errors['quantity' + i] != 'undefined')) {
+            errors['empty'] = `Please enter some quantities.`;
+            console.log("Please enter some quantities.");
         }
     }
 
-   
-    if (Object.keys(errors).length === 0) {
-        // save user quantities on server for later use in invoice (note: another user after will overwrite saved data)
-        saved_user_quantity_array = request.body.quantity;
-        //If data is valid, go to login to then direct user to invoice once logged in. 
-        response.redirect('./login.html');
+    // if there are errors, display each error on a new line
+    if (Object.keys(errors).length > 0) {
+        var errorMessage_str = '';
+        for (err in errors) {
+            errorMessage_str += errors[err] + '\n';
+        }
+        // response.redirect(`./products_display.html?errorMessage=${errorMessage_str}&` + JSON.stringify(POST));
+        let params = new URLSearchParams(request.body);
+        params.append('errorMessage', errorMessage_str);
+        response.redirect(`./products_display.html?${params.toString()}`);
     } else {
-
-       
-        response.redirect(`./products_display.html?error_obj=${JSON.stringify(errors)}&quantity=${JSON.stringify(request.body.quantity)}` );
+        // if there are no errors, put quanties into session.cart
+        if (typeof request.session.cart == 'undefined') {
+            request.session.cart = {}; // creates a new cart if there isn't already one 
+        }
+        for (let i in products_data[products_key]) {
+            if (typeof request.session.cart[products_key] == 'undefined') {
+                request.session.cart[products_key] = [];
+            }
+            quantity_requested = Number(POST['quantity' + i]);
+            // if the i item in products_key already exists in the cart, add quantities_requested to the existing value
+            if (typeof request.session.cart[products_key][i] != 'undefined') {
+                request.session.cart[products_key][i] += quantity_requested;
+            // else if the i item in products_key doesn't exist in the cart, add quantity_requested 
+            } else {
+                request.session.cart[products_key][i] = quantity_requested;
+            }
+        }
+        console.log(request.session);
+        console.log(request.session.cart[products_key]);
     }
+    let params = new URLSearchParams(request.body);
+    params.append('products_key', products_key);
+    response.redirect(`./products_display.html?${params.toString()}`);
 });
+
+
 //route all other GEt requests to files in the public folder. 
 app.use(express.static('./public'));
 

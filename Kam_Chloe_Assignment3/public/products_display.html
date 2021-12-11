@@ -4,17 +4,18 @@
 <script>
 	
 	let params = (new URL(document.location)).searchParams;
+  window.onload = () => {
+	  //If there are errors, they will display in the pop up alert letting the user know. 
+    if ((params.has('errorMessage'))) {
+      for (i in products) {
+        // put quantity values from qstring into quantity textboxes
+        product_selection_form[`quantity${i}`].value = params.get(`quantity${i}`);
+      }
+      alert(params.get("errorMessage"));
+    }
+  }
 
 	
-		//set up so if errors occur, it will alert the user in a pop uprs
-		if(params.has('error_obj')) {
-			var errors = JSON.parse(params.get('error_obj')); 
-			let err_str = '';
-			for(err in  errors) {
-				err_str += errors[err] + '\n';
-			}
-			alert(err_str);
-		}
 	
 	
 
@@ -48,15 +49,7 @@
 	<link href="function.css" rel="stylesheet" />
 	<title>Soccer Saver Store </title>
 	<script src="./functions.js"></script>
-
-	
-				
-			  </div>
-        </div>
-       
-        </div>
-      </div>
-	  <script>
+	<script>
 		// get the query string
 		if (params.has('products_key')) {
 		  var products_key = params.get('products_key');
@@ -72,6 +65,15 @@
 		
 	  </script>
 
+	
+				
+			  </div>
+        </div>
+       
+        </div>
+      </div>
+	  
+
 <div class="navbar">
 	<div class="items_right">
 		<a href="./index.html">Home</a>
@@ -86,6 +88,23 @@
 	<header id="header">
 		<div class="innertube">
 			<h1>Soccer Saver Store </h1>
+		
+			<script>
+				var products_data;
+				var total = 0;
+				loadJSON('get_products_data', function (response) {
+				  // Parsing JSON string into object
+				  products_data = JSON.parse(response);
+				});
+				loadJSON('get_cart', function (response) {
+				  // Parsing JSON string into object
+				  shopping_cart = JSON.parse(response);
+				  for (pk in shopping_cart) {
+					total += shopping_cart[pk].reduce((a, b) => a + b);
+				  }
+				});
+				cart_total.innerHTML = total;
+			  </script>
 			<script>
 				products = products_data[products_key]; // get the particular products to display
 			  </script>
@@ -93,7 +112,7 @@
 						nav_bar(products_key, products_data);
 					  </script>
 			<!-- Connects the "purchase" button to the invoice page to display it 
-			<form name="order_form" action="./process_form" method="POST">
+			
 		</div>
 	-->
 
@@ -109,34 +128,32 @@
 					<p>
 
 					<div>
-						<form action="add_to_cart" name="product_selection_form" method="POST">
-						<main>
-							<script>
+						<form action="/add_to_cart" name="product_selection_form" method="POST">
+							<main>
+							  <script>
+								document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
 
-
-          document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
-          for (i in products) {
-            document.write(`
-			<section class="item">
-						<h2><span class="w3-center w3-tag w3-dark-grey w3-round"><b>${products[i].name}</b></h2>
-							<p><span class="w3-left w3-tag w3-dark-grey w3-round">${products[i].quantity_available} in stock </span></p>
-					
-						<p><span class="w3-left w3-tag w3-dark-grey w3-round">$${products[i].price}</span></p>
-						
-						<input type="text" placeholder="Enter Desired Amount" name="quantity[${i}]" onkeyup="checkQuantityTextbox(this);">
-						<div id="quantity[${i}]_errordiv"></div>
-
-						<div class="img_wrap">
-						<img src="${products[i].image}"></div>
-					</section>
-						`);
-								}
-    
+								for (i = 0; i < products.length; i++) {
+								  document.write(`
+								  <section class="item">
+								  <div class="w3-quarter">
 								
-							</script>
-
-							
-						</main>
+								
+								  <h2>${products[i].name}</h2> 
+								 <div class="img_wrap">
+								  <img src='${products[i].image}'>
+								  <p><span>$${products[i].price} | Quantity Available: ${products[i].quantity_available} </span></p> 
+								  <label id="quantity${i}_label"}"> Enter a quantity</label>
+			
+								  <input type = "text" placeholder = "0" name="quantity${i}" maxlength="3" size="5"onkeyup = "checkQuantityTextbox(this);"> 
+								  	<div id= "quantity${i}_errordiv" > 
+								          
+								  </div>
+								  </section>`
+								  );
+								}
+							  </script>
+							</main>
 					</div>
 
 					<!-- Submit button to add items to cart, which eventually should lead to the cart page going to purchase -->

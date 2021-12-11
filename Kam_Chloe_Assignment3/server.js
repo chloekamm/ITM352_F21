@@ -182,10 +182,69 @@ function isNonNegInt(q, returnErrors = false) {
 }
 //From lab 13 
 //to access inputted data from products.js
-app.use(express.urlencoded({ extended: true }));
+app.post("/add_to_cart", function (request, response, next) {
+    let POST = request.body;
+    var products_key = request.body['products_key']; // get the product key sent from the form post
+    // Validations 
+    var errors = {}; //assume no errors to start
+    var empty = true // assume no quantities entered
+    var quantity_array = [];
 
-//POST method to get users selected items in cart
+    for (let i in products_data[products_key]) {
+        q = POST['quantity' + i];
+        //Checks user input for negative number or non number inputs. Notifies them if input is invalid. 
+        if (isNonNegInt(q) == false) {
+            errors['invalid' + i] = `${q} is not a valid quantity for ${products_data[products_key][i].name}`;
+            console.log(`${q} is not a valid quantity for ${products_data[products_key][i].name}`);
+        }
+        //Validates if there is enough quantity of item in stock, notifys user if not
+        if (q > products_data[products_key][i].quantity_available) {
+            errors['quantity' + i] = `${q} items are not available for ${products_data[products_key][i].name}, only ${products_data[products_key][i].quantity_available} in stock `;
+        }
+        if (q > 0) {
+            empty = false;
+            console.log("Some quantities inputted.")
+        } else if ((typeof errors['invalid' + i] != 'undefined') && (typeof errors['quantity' + i] != 'undefined')) {
+            errors['empty'] = `Please enter some quantities.`;
+            console.log("Please enter some quantities.");
+        }
+    }
 
+    // if there are errors, display each error on a new line
+    if (Object.keys(errors).length > 0) {
+        var errorMessage_str = '';
+        for (err in errors) {
+            errorMessage_str += errors[err] + '\n';
+        }
+        // response.redirect(`./products_display.html?errorMessage=${errorMessage_str}&` + JSON.stringify(POST));
+        let params = new URLSearchParams(request.body);
+        params.append('errorMessage', errorMessage_str);
+        response.redirect(`./products_display.html?${params.toString()}`);
+    } else {
+        // if there are no errors, put quanties into session.cart
+        if (typeof request.session.cart == 'undefined') {
+            request.session.cart = {}; // creates a new cart if there isn't already one 
+        }
+        for (let i in products_data[products_key]) {
+            if (typeof request.session.cart[products_key] == 'undefined') {
+                request.session.cart[products_key] = [];
+            }
+            quantity_requested = Number(POST['quantity' + i]);
+            // if the i item in products_key already exists in the cart, add quantities_requested to the existing value
+            if (typeof request.session.cart[products_key][i] != 'undefined') {
+                request.session.cart[products_key][i] += quantity_requested;
+            // else if the i item in products_key doesn't exist in the cart, add quantity_requested 
+            } else {
+                request.session.cart[products_key][i] = quantity_requested;
+            }
+        }
+        console.log(request.session);
+        console.log(request.session.cart[products_key]);
+    }
+    let params = new URLSearchParams(request.body);
+    params.append('products_key', products_key);
+    response.redirect(`./products_display.html?${params.toString()}`);
+});
 
 
 //route all other GEt requests to files in the public folder. 

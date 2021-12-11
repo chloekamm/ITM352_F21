@@ -1,32 +1,22 @@
 <!--Chloe Kam -->
 <!--Assignment 2 -->
 <!--Products Display page, allows users to see products and select quantities -->
-
-<!DOCTYPE html>
-<!-- Template by html.am -->
-<html>
 <script>
 	
 	let params = (new URL(document.location)).searchParams;
-	window.onload = () =>  {
-		if(params.has('quantity')) {
-			var quantities = JSON.parse(params.get('quantity'));
-			for(i in quantities) {
-				order_form[`quantity[${i}]`].value = quantities[i]; //This puts value back into text box
-				checkQuantityTextbox(order_form[`quantity[${i}]`]);
-			}
-		}
-		
-		//set up so if errors occur, it will alert the user in a pop uprs
-		if(params.has('error_obj')) {
-			var errors = JSON.parse(params.get('error_obj')); 
-			let err_str = '';
-			for(err in  errors) {
-				err_str += errors[err] + '\n';
-			}
-			alert(err_str);
-		}
-	}
+  window.onload = () => {
+	  //If there are errors, they will display in the pop up alert letting the user know. 
+    if ((params.has('errorMessage'))) {
+      for (i in products) {
+        // put quantity values from qstring into quantity textboxes
+        product_selection_form[`quantity${i}`].value = params.get(`quantity${i}`);
+      }
+      alert(params.get("errorMessage"));
+    }
+  }
+
+	
+	
 	
 
 	function isNonNegInt(q, return_errors = false) {
@@ -46,23 +36,20 @@
 
 </script>
 
+<!DOCTYPE html>
+<!-- Template by html.am -->
+<html>
+
 <head>
 	<!-- pulls data of products and locates the style sheet for the design of the website.  -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="products.json"></script>
+	<!--<script src='products.json'></script>-->
 
 	<link href="./products-style.css" rel="stylesheet" />
+	<link href="function.css" rel="stylesheet" />
 	<title>Soccer Saver Store </title>
 	<script src="./functions.js"></script>
-
-	
-				
-			  </div>
-        </div>
-       
-        </div>
-      </div>
-	  <script>
+	<script>
 		// get the query string
 		if (params.has('products_key')) {
 		  var products_key = params.get('products_key');
@@ -75,7 +62,17 @@
 		  // Parsing JSON string into object
 		  products_data = JSON.parse(response);
 		});
+		
 	  </script>
+
+	
+				
+			  </div>
+        </div>
+       
+        </div>
+      </div>
+	  
 
 <div class="navbar">
 	<div class="items_right">
@@ -91,6 +88,23 @@
 	<header id="header">
 		<div class="innertube">
 			<h1>Soccer Saver Store </h1>
+		
+			<script>
+				var products_data;
+				var total = 0;
+				loadJSON('get_products_data', function (response) {
+				  // Parsing JSON string into object
+				  products_data = JSON.parse(response);
+				});
+				loadJSON('get_cart', function (response) {
+				  // Parsing JSON string into object
+				  shopping_cart = JSON.parse(response);
+				  for (pk in shopping_cart) {
+					total += shopping_cart[pk].reduce((a, b) => a + b);
+				  }
+				});
+				cart_total.innerHTML = total;
+			  </script>
 			<script>
 				products = products_data[products_key]; // get the particular products to display
 			  </script>
@@ -98,7 +112,7 @@
 						nav_bar(products_key, products_data);
 					  </script>
 			<!-- Connects the "purchase" button to the invoice page to display it 
-			<form name="order_form" action="./process_form" method="POST">
+			
 		</div>
 	-->
 
@@ -109,36 +123,41 @@
 		<div id="contentwrapper">
 			<div id="content">
 				<div class="innertube">
-					<!-- An array to display the avaialble products. -->
+					<!-- An array to display the avaialble products for the different pages.  -->
 					<h1>Available Products: </h1>
 					<p>
 
 					<div>
-						<main>
-							<script>
+						<form action="/add_to_cart" name="product_selection_form" method="POST">
+							<main>
+							  <script>
+								document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
 
-
-          document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
-          for (i in products) {
-            document.write(`
-              <div class="w3-quarter">
-              <img src="${products[i].image}" style="width:50%">
-              <h2>${products[i].name}</h2> 
-              <p><span>$${products[i].price} | Quantity Available: ${products[i].quantity_available} </span></p> 
-              <label id="quantity${i}_label"}"> Enter a quantity</label> 
-              <input type = "text" placeholder = "0" name="quantity${i}" maxlength="3" size="5"onkeyup = "checkQuantityTextbox(this);">              
-              </div>`);
-          }
-    
+								for (i = 0; i < products.length; i++) {
+								  document.write(`
+								  <section class="item">
+								  <div class="w3-quarter">
 								
-							</script>
-
-							
-						</main>
+								
+								  <h2>${products[i].name}</h2> 
+								 <div class="img_wrap">
+								  <img src='${products[i].image}'>
+								  <p><span>$${products[i].price} | Quantity Available: ${products[i].quantity_available} </span></p> 
+								  <label id="quantity${i}_label"}"> Enter a quantity</label>
+			
+								  <input type = "text" placeholder = "0" name="quantity${i}" maxlength="3" size="5"onkeyup = "checkQuantityTextbox(this);"> 
+								  	<div id= "quantity${i}_errordiv" > 
+								          
+								  </div>
+								  </section>`
+								  );
+								}
+							  </script>
+							</main>
 					</div>
 
-					<!-- Submit button for the purchase, which leads to invoice page.  -->
-					<br><input type="submit" class="button" value="Purchase" id="submit" name="purchase_submit">
+					<!-- Submit button to add items to cart, which eventually should lead to the cart page going to purchase -->
+					<br><input type="submit" class="button" value="Add items to cart" id="submit" name="purchase_submit">
 					</form>
 </body>
 <!-- Footer for design and display. -->
