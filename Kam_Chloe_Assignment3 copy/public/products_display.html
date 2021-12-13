@@ -67,6 +67,7 @@
 	<link href="function.css" rel="stylesheet" />
 	<title>Soccer Saver Store </title>
 	<script src="./functions.js"></script>
+	<script src="./product_data.js" type="text/javascript"></script>
 	<script>
 		// get the query string
 		if (params.has('products_key')) {
@@ -75,11 +76,7 @@
 			document.write('no products key in query string');
 			document.stop;
 		}
-		var products_data;
-		loadJSON('get_products_data', function (response) {
-			// Parsing JSON string into object
-			products_data = JSON.parse(response);
-		});
+		
 
 	</script>
 
@@ -98,8 +95,12 @@
 
 			<a href="./login.html">Login</a>
 			<a href="./cart.html">Cart</a>
+			<h4>You have <span id="cart_total">0</span> items in your shopping cart</h4>
+			<script>
+			  cart_total.innerHTML = total;
+			</script>
 
-
+			
 </head>
 
 <body>
@@ -111,12 +112,9 @@
 
 			<script>
 				//Code from assingment 3 examples 
-				/*var products_data;
+				
 				var total = 0;
-				loadJSON('get_products_data', function (response) {
-				  // Parsing JSON string into object
-				  products_data = JSON.parse(response);
-				});
+			
 				loadJSON('get_cart', function (response) {
 				  // Parsing JSON string into object
 				  shopping_cart = JSON.parse(response);
@@ -125,13 +123,13 @@
 				  }
 				});
 				cart_total.innerHTML = total;
-				*/
+				
 			</script>
 			<script>
 				products = products_data[products_key]; // get the particular products to display
 			</script>
 			<script>
-				nav_bar(products_key, products_data);
+				nav_bar(products_key, products_data); //Navigation Bar to display so can access other pages
 
 
 				

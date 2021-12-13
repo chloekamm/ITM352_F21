@@ -43,18 +43,14 @@ app.use(express.urlencoded({ extended: true }));
 // takes product information from json and stores in var products
 
 
-//Get request for products data
-app.post("/get_products_data", function (request, response) {
-    response.json(products_data);
 
-});
 
 
 app.post("/get_cart", function (request, response) {
     response.json(request.session.cart);
 }); 
 
-// routing
+//Get request for products data
 app.get("/product_data.js", function (request, response, next) {
     response.type('.js');
     var products_str = `var products_data = ${JSON.stringify(products_data)};`;
@@ -222,7 +218,7 @@ function isNonNegInt(q, returnErrors = false) {
 //From lab 13 
 //to access inputted data from products.js
 //To store user input in sessions in otder to create a shoppping cart 
-// COde from lab 13 and Nicole Tommee for reference. 
+// COde from assignment 2 and tweaked for Assignment 3 based off Nicole Tommee for reference. 
 app.post("/add_to_cart", function (request, response, next) {
     let POST = request.body;
     var products_key = request.body['products_key']; // get the product key sent from the form post
