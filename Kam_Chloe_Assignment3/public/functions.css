@@ -6,12 +6,13 @@ style sheet for naivgation bar on top of page */
 
 
   body{
-      background-color: white;
+      background-color: lightgray;
   }
 
   
   a {
       color:black;
+      font-style: bold;
     
 
   }

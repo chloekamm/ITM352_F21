@@ -12,6 +12,25 @@
 
 
     // Referenced code from Assignment 3 examples
+ 
+  
+    //FOR COOKIE FUNCTION
+
+	function getCookie(cname) {
+		let name = cname + "=";
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for (let i = 0; i < ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
 
     var total = 0;
 
@@ -30,10 +49,10 @@
     if (params.has('products_key')) {
       var this_product_key = params.get('products_key');
     }
-
-    // navigation bar
-    document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
-    nav_bar(this_product_key, products_data);
+// navigation bar
+     document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
+    document.write(`<a href='./login.html'>Login</a>&nbsp&nbsp&nbsp;`);
+  
 
 
 
@@ -99,10 +118,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
   </head>
-
+ 
   <body>
     <link rel="stylesheet" href="invoicestyle.css">
-    <h2>You have <span id="cart_total">0</span> items in your shopping cart</h2>
+    <link href="functions.css" rel="stylesheet" />
+    <!--get username cookie to display name and amt in cart-->
+   
+      <script>
+        if (getCookie('user_info') != false) {
+          var user_info = JSON.parse(getCookie('user_info'));
+          console.log(user_info);
+          document.write(`Welcome, ${user_info["name"]} here is your cart! 
+        `); // If the user has a cookie called "user_info", welcome them by name
+        } else {
+          document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
+        };
+      
+      </script>
+      <br>
+        <script>
+          
+          nav_bar(this_product_key, products_data);
+          </script>
+      
+    <h2>You have <span id="cart_total">0</span> items in your shopping cart:</h2>
     <script>
       cart_total.innerHTML = total;
     </script>
