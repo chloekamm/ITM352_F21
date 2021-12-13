@@ -1,41 +1,48 @@
-<!--Chloe Kam
-Cart Page
-Shows users what items are in their carts
-They are able to edit their cart
-Eventually leads users to invoice-->
 
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <script src="./product_data.js" type="text/javascript"></script>
 <script src="./functions.js"></script>
 
 <script>
+  //WHAT IS NEEDED
+  // allow users to edit the quantity of items 
+  //Check for validation/quantity available for 
+  // get the cart information from the session and loop through it to display products
+  // Personalization - username, logged in? email for comfirmation
+
+
+  // Referenced code from Assignment 3 examples
   var products_data;
   var total = 0;
   loadJSON('get_products_data', function (response) {
     // Parsing JSON string into object
     products_data = JSON.parse(response);
   });
+
   loadJSON('get_cart', function (response) {
     // Parsing JSON string into object
-    shopping_cart = JSON.parse(response);
+    shopping_cart = JSON.parse(response); // this is request.session.cart get the data inputed
     for (pk in shopping_cart) {
       total += shopping_cart[pk].reduce((a, b) => a + b);
     }
   });
 
+ 
   // get the query string
   let params = (new URL(document.location)).searchParams;
   if (params.has('products_key')) {
     var this_product_key = params.get('products_key');
-  } else {
-    document.write('no products key in query string');
-    document.stop;
   }
 
   // navigation bar
   document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
   nav_bar(this_product_key, products_data);
+
+
+  
+
+ 
 
   products = products_data[products_key]; // get the particular products to display
 
@@ -44,14 +51,15 @@ Eventually leads users to invoice-->
     str = '';
     for (i = 0; i < products.length; i++) {
       a_qty = 0;
-      // if the quantity is valid, store the quantity in a_qty
+      // if the quantity is valid, store the quantity in a_qty NEED TO GET DDATA FROM SESSION 
       if (typeof params.get(`quantity${i}`) != 'undefined') {
         a_qty = params.get(`quantity${i}`);
       }
-      // if the quantity is greater than 0, carry out calculations for extended price & subtotal
+      // if the quantity is greater than 0, carry out calculations for extended price(quanattity*price) & subtotal 
+      //Taken from invoice and examples from assignments 
       if (a_qty > 0) {
         // product row
-        extended_price = a_qty * products[i].price
+        extended_price = a_qty * products[i].price //Calcualtes total of price for quantity of a certain product. 
         subtotal += extended_price;
         str += (`
           <tr>
@@ -63,21 +71,24 @@ Eventually leads users to invoice-->
           `);
       }
     }
-    // Compute tax
-    tax_rate = 0.04;
-    tax = tax_rate * subtotal;
+ //Compute Tax
+        // 5% tax rate because that is the average throughout the united states 
+        var tax_rate = 0.05;
+        var tax = tax_rate * subtotal;
 
-    // Compute shipping
-    if (subtotal <= 45) {
-      shipping = 10;
-    } else if (subtotal <= 100) {
-      shipping = 15;
-    } else {
-      shipping = 0.07 * subtotal; // 7% of subtotal
-    }
+        //Compute Shipping
+        if (subtotal <= 50) {
+          shipping = 3;
+        }
+        else if (subtotal <= 250) {
+          shipping = 7;
+        }
+        else {
+          shipping = 0;
 
-    // Compute grand total
-    total = subtotal + tax + shipping;
+        }
+        //compute grandtotal
+        var grandtotal = subtotal + tax + shipping;
 
     document.write(str);
   }
@@ -87,24 +98,22 @@ Eventually leads users to invoice-->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invoice</title>
-  <link rel="stylesheet" href="styles.css">
-
+  <title>Shopping Cart</title>
 </head>
 
 <body>
-  <link rel="stylesheet" href="invoice.css">
+  <link rel="stylesheet" href="invoicestyle.css">
   <h2>You have <span id="cart_total">0</span> items in your shopping cart</h2>
   <script>
     cart_total.innerHTML = total;
   </script>
 
 
- 
+
   <table border="2">
     <tbody>
       <tr style="background-color: lightblue">
-  
+        <th style="text-align: center;" width="43%">Product Image</th>
         <th style="text-align: center;" width="11%">Product Name</th>
         <th style="text-align: center;" width="13%">Quantity</th>
         <th style="text-align: center;" width="54%">Extended Price</th>
@@ -132,8 +141,8 @@ Eventually leads users to invoice-->
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td colspan="2"><strong><span style= "color:green; font-size:20px" >Total</span></strong></td>        
-        <td width="65%"><strong><span style="color:green; font-size:20px">\$${total.toFixed(2)}</span></strong></td>
+        <td colspan="2"><strong><span style= "color:black; font-size:20px" >Total</span></strong></td>        
+        <td width="65%"><strong><span style="color:black; font-size:20px">\$${total.toFixed(2)}</span></strong></td>
       </tr>
       `);
 
@@ -143,23 +152,42 @@ Eventually leads users to invoice-->
   <br>
   <br>
   <p>
-    A copy of your receipt will be sent to
-    <strong>
-
-      <script>
-        document.write(params.get('email'));
-      </script>
-    </strong>
-
+    <form action="./invoice.html">
+      <input type="submit" value="Confirm Order" name="confirm_purchase"
+        style="margin:0px auto; display:block; background-color: lightblue; border-radius: 8px; font-family: 'Montserrat', sans-serif">
+    </form>
+    </p>
+  
   </p>
+  <div>
 
-  <div class="shippingRates"> <b> <br>
-      SHIPPING RATES: <br>
-      A subtotal $0 - $45 will be $10 shipping <br>
-      A subtotal $45 - $99.99 will be $15 shipping <br>
-      Subtotals over $100 will be charged 7% of the subtotal amount
-    </b>
-  </div>
+    <b>OUR SHIPPING POLICY IS:</b>
+    <br>
+
+    A subtotal $0 - $49.99 will be $3 shipping/
+
+    A subtotal $50 - $249.99 will be $7 shipping/
+
+    <!--It makes most sense to have the bigger purcheses to have free shipping, since the items themselves are on the pricier side. 
+also because the items are usually bought together, so customers will always be spending more. This pricing system is how it 
+usually is on real soccer websites with the same type of products-->
+    Subtotals over $250 will be free of charge for shipping.
+
+    <br>
+    <br>
+    <b> RETURN POLICY:</b>
+    <br>
+   We except returns on non used items and products for full refunds or exchanges. Must be processed within 30 days of
+    receiving shipment.
+
+    <footer id="footer">
+      <div class="footer">
+        <p>Contact us for any questions or concerns: Soccersaverstore@soccer.com or
+          689-999-0000
+
+        </p>
+      </div>
+
 </body>
 
 </html>
