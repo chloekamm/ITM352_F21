@@ -142,8 +142,12 @@ let params = new URLSearchParams(request.query);
              // store username, email, and full name in the session
              request.session['username'] = login_username;
              request.session['email'] = users_reg_data[login_username]['email'];
-        
-             console.log(request.session); //user info stored in session, written in console for verification
+        //display name on products display
+
+        var user_info = {"username": login_username, "name": users_reg_data[login_username].name, "email": users_reg_data[login_username].email};
+        response.cookie('user_info', JSON.stringify(user_info), { maxAge: 30 * 60 * 1000 }); //Gives cookie and stores user data 
+
+             
             console.log(`Welcome ${request.session['username']}`);
             // Create a username cookie with expiration time
         

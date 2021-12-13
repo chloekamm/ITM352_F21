@@ -107,7 +107,18 @@
 	<header id="header">
 		<div class="innertube">
 
+<!--get username cookie to display name and amt in cart-->
+<script>
+	if (getCookie('user_info') != false) {
+		var user_info = JSON.parse(getCookie('user_info'));
+		console.log(user_info);
+		document.write(`Welcome, ${user_info["name"]}! 
+		Enjoy your shopping!`); // If the user has a cookie called "user_info", welcome them by name
+	} else {
+		document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
+	};
 
+</script>
 			<h1>Soccer Saver Store </h1>
 
 			<script>
