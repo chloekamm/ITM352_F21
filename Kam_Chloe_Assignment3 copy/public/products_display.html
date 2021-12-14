@@ -91,10 +91,11 @@
 
 	<div class="navbar">
 	<h3>
-			
-			<span id="login"><a href='login.html' style="margin-left: 0px;">Login</a></span>
+		<a href="login.html">Login</a>
 		
-			
+			<a href="/logout">Logout</a>
+		
+		
 			<a href="./cart.html">Cart</a>
 
 		
@@ -160,11 +161,16 @@
 			document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
 			nav_bar(products_key, products_data);
 			// if there is a username in the cookie, display "logout" Code From Nicole Tommee 
-			if (getCookie('user_info') != '') {
-			  login.innerHTML = `<a onclick='document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";' href='';style="margin-left: 30px;">Logout </a> `;
-			}
-			console.log(getCookie('username'));
+			//if (getCookie('user_info') != '') {
+			  //login.innerHTML = `<a onclick='document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";' href='';style="margin-left: 30px;">Logout </a> `;
+			//}
+			//console.log(getCookie('username'));
+		
+			
+		
+		
 		  </script>
+		 
 
 			<!-- Connects the "purchase" button to the invoice page to display it 
 			
