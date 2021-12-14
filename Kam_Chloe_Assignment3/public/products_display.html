@@ -91,11 +91,14 @@
 
 	<div class="navbar">
 	<h3>
-			<a href="./index.html">Home</a>
-
-			<a href="./login.html">Login</a>
+			
+			<span id="login"><a href='login.html' style="margin-left: 0px;">Login</a></span>
+		
+			
 			<a href="./cart.html">Cart</a>
-			<br>
+
+		
+	</h3>
 			
 			<h4>
 				<script>
@@ -103,7 +106,7 @@
 					if (getCookie('user_info') != false) {
 						var user_info = JSON.parse(getCookie('user_info'));
 						console.log(user_info);
-						document.write(`Welcome, ${user_info["name"]}! 
+						document.write(`Welcome, ${user_info["name"]} you are logged in! 
 						`); // If the user has a cookie called "user_info", welcome them by name
 					} else {
 						document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
@@ -113,11 +116,9 @@
 				</script>
 				
 				</h4>
-				</h3>
+				
 				<h6>You have <span id="cart_total">0</span> items in your shopping cart</h6>
-				<script>
-				  cart_total.innerHTML = total;
-				</script>
+			
 			
 
 		
@@ -147,28 +148,27 @@
 				  }
 				});
 			
-				
+			
 			</script>
+				<script>
+					cart_total.innerHTML = total;
+				  </script>
 			<script>
 				products = products_data[products_key]; // get the particular products to display
 			</script>
-			<script>
-				nav_bar(products_key, products_data); //Navigation Bar to display so can access other pages
-
-
-				
-						//If there is a username present with cookie/session function, display username
-				/*if(request.session['username']>=0){
-					login.innerHTML=`Logout ${request.session['username']}`;
+		  <script>
+			document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
+			nav_bar(products_key, products_data);
+			// if there is a username in the cookie, display "logout" Code From Nicole Tommee 
+			if (getCookie('user_info') != '') {
+			  login.innerHTML = `<a onclick='document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";' href='';style="margin-left: 30px;">Logout </a> `;
+			}
+			console.log(getCookie('username'));
+			
 		
-				} else {
-					login.innerHTML="Login";
+		
+		  </script>
 
-				}
-				console.log(request.session['username']);
-				*/
-
-			</script>
 			<!-- Connects the "purchase" button to the invoice page to display it 
 			
 		</div>

@@ -1,18 +1,19 @@
 
 		/* Gives whole website a black border  */
 			body{
-				
+			
 				border: 5px solid black;
 			
 			}
 			/* Styles header, makes background green, centers text*/
 			#header h1 {
 				background: #BCCE98;
-				height: 70px;
+				height: 75px;
 				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+				font-style: italic;
 				margin: 0px;
-				padding-top: 10px;
+				padding-top: 50px;
+				margin-top: -30px;
 			
 			}
 			/* Takes away empty space on bottom*/
@@ -24,7 +25,7 @@
 				
 				width: 100%;
 				color:darkgreen;
-				background-color: lightgray;
+				background-color: lightgrey;
 				
 			}
 		
@@ -40,7 +41,7 @@
 		
 			.innertube{
 				margin: 0px; 
-				padding-top: 15px;
+				padding-top:05px;
 				text-align: center;
 			
 			}
@@ -64,3 +65,17 @@
 				width: 200px;
 				height: 200px; 
 			  }
+			h3{
+		background-color:lightgray;
+		word-spacing: 10px;
+	
+			}
+			h4{
+				margin-right: 750px;
+				margin-top: -20px;
+			}
+			h6{
+				margin-right: 690px;
+				margin-top: -20px;
+			}
+		

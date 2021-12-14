@@ -1,0 +1,262 @@
+<<!DOCTYPE html>
+  <html lang="en">
+  <script src="./product_data.js" type="text/javascript"></script>
+  <script src="./functions.js"></script>
+
+  <script>
+    //WHAT IS NEEDED
+    // allow users to edit the quantity of items 
+    //Check for validation/quantity available for 
+    // get the cart information from the session and loop through it to display products
+    // Personalization - username, logged in? email for comfirmation
+
+
+    // Referenced code from Assignment 3 examples
+ 
+  
+    //FOR COOKIE FUNCTION
+
+	function getCookie(cname) {
+		let name = cname + "=";
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for (let i = 0; i < ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+
+    var total = 0;
+
+
+    loadJSON('get_cart', function (response) {
+      // Parsing JSON string into object
+      shopping_cart = JSON.parse(response); // this is request.session.cart get the data inputed
+      for (pk in shopping_cart) {
+        total += shopping_cart[pk].reduce((a, b) => a + b);
+      }
+    });
+
+
+    // get the query string
+    let params = (new URL(document.location)).searchParams;
+    if (params.has('products_key')) {
+      var this_product_key = params.get('products_key');
+    }
+// navigation bar
+     document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
+    document.write(`<a href='./login.html'>Login</a>&nbsp&nbsp&nbsp;`);
+  
+
+
+
+
+
+
+
+
+    function display_invoice_table_rows() {
+      subtotal = 0;
+      //Loop through shopping cart to display.
+      str = '';
+      for (let pk in shopping_cart) {
+        let quantities = shopping_cart[pk];
+
+
+        for (let i in quantities) {
+
+          // if the quantity is greater than 0, carry out calculations for extended price(quanattity*price) & subtotal 
+          //Taken from invoice and examples from assignments 
+          let a_qty = quantities[i];
+          if (a_qty > 0) {
+            // product row
+            extended_price = a_qty * products_data[pk][i].price //Calcualtes total of price for quantity of a certain product. 
+            subtotal += extended_price;
+            str += (`
+          <tr>
+           
+            <td width="43%">${products_data[pk][i].name}
+            <td align="center" width="11%">${a_qty}</td>
+            <td width="54%">$${extended_price.toFixed(2)}</td>
+          </tr>
+          `);
+          }
+        }
+      }
+      //Compute Tax
+      // 5% tax rate because that is the average throughout the united states 
+      var tax_rate = 0.05;
+      var tax = tax_rate * subtotal;
+
+      //Compute Shipping
+      if (subtotal <= 50) {
+        shipping = 3;
+      }
+      else if (subtotal <= 250) {
+        shipping = 7;
+      }
+      else {
+        shipping = 0;
+
+      }
+      //compute grandtotal
+      var grandtotal = subtotal + tax + shipping;
+
+      document.write(str);
+    }
+  </script>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+  </head>
+ 
+  <body>
+    <link rel="stylesheet" href="invoicestyle.css">
+    <link href="functions.css" rel="stylesheet" />
+    <!--get username cookie to display name and amt in cart-->
+   
+      <script>
+        if (getCookie('user_info') != false) {
+          var user_info = JSON.parse(getCookie('user_info'));
+          console.log(user_info);
+          document.write(`Welcome, ${user_info["name"]} here is your cart! 
+        `); // If the user has a cookie called "user_info", welcome them by name
+        } else {
+          document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
+        };
+      
+      </script>
+      <br>
+        <script>
+          
+          nav_bar(this_product_key, products_data);
+          </script>
+      
+    <h2>You have <span id="cart_total">0</span> items in your shopping cart:</h2>
+    <script>
+      cart_total.innerHTML = total;
+    </script>
+
+
+
+    <table border="2">
+      <tbody>
+        <tr style="background-color: lightblue">
+
+          <th style="text-align: center;" width="11%">Product Name</th>
+          <th style="text-align: center;" width="13%">Quantity</th>
+          <th style="text-align: center;" width="54%">Extended Price</th>
+        </tr>
+        <script>
+
+          subtotal = 0;
+          display_invoice_table_rows();
+
+          //Compute Tax
+          // 5% tax rate because that is the average throughout the united states 
+          var tax_rate = 0.05;
+          var tax = tax_rate * subtotal;
+
+          //Compute Shipping
+          if (subtotal <= 50) {
+            shipping = 3;
+          }
+          else if (subtotal <= 250) {
+            shipping = 7;
+          }
+          else {
+            shipping = 0;
+
+          }
+          //compute grandtotal
+          var grandtotal = subtotal + tax + shipping;
+        </script>
+
+
+        <td colspan="4" width="100%">&nbsp;</td>
+
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+          <td width="54%"> $
+            <script> document.write(subtotal.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @
+              <script> document.write(100 * tax_rate);</script>%
+            </span></td>
+          <td width="54%">$
+            <script>document.write(tax.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping
+              <script> </script>
+            </span></td>
+          <td width="54%">$
+            <script>document.write(shipping.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+          <td width="54%"><strong>$
+              <script>document.write(grandtotal.toFixed(2));</script>
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>
+    </tbody>
+    </table>
+    <br>
+    <br>
+    <p>
+    <form action="./confirm_purchase" method="POST">
+      <input type="submit" value="Confirm Order" name="confirm_purchase"
+        style="margin:0px auto; display:block; background-color: lightblue; border-radius: 8px; font-family: 'Montserrat', sans-serif">
+    </form>
+    </p>
+
+    </p>
+    <div>
+
+      <b>OUR SHIPPING POLICY IS:</b>
+      <br>
+
+      A subtotal $0 - $49.99 will be $3 shipping/
+
+      A subtotal $50 - $249.99 will be $7 shipping/
+
+      <!--It makes most sense to have the bigger purcheses to have free shipping, since the items themselves are on the pricier side. 
+also because the items are usually bought together, so customers will always be spending more. This pricing system is how it 
+usually is on real soccer websites with the same type of products-->
+      Subtotals over $250 will be free of charge for shipping.
+
+      <br>
+      <br>
+      <b> RETURN POLICY:</b>
+      <br>
+      We except returns on non used items and products for full refunds or exchanges. Must be processed within 30 days
+      of
+      receiving shipment.
+
+      <footer id="footer">
+        <div class="footer">
+          <p>Contact us for any questions or concerns: Soccersaverstore@soccer.com or
+            689-999-0000
+
+          </p>
+        </div>
+
+  </body>
+
+  </html>

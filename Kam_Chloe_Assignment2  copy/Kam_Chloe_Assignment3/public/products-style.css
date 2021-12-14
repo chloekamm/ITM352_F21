@@ -1,0 +1,78 @@
+
+		/* Gives whole website a black border  */
+			body{
+			
+				border: 5px solid black;
+			
+			}
+			/* Styles header, makes background green, centers text*/
+			#header h1 {
+				background: #BCCE98;
+				height: 75px;
+				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+				font-style: italic;
+				margin: 0px;
+				padding-top: 50px;
+			
+			}
+			/* Takes away empty space on bottom*/
+			#mainwrapper {
+				overflow: hidden;
+			}
+			
+			#contentwrapper{
+				
+				width: 100%;
+				color:darkgreen;
+				background-color: lightgrey;
+				
+			}
+		
+			#footer{
+
+				background: #BCCE98;
+				margin:0px;
+				height: 70px;
+				float: center;
+				font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+				
+			}
+		
+			.innertube{
+				margin: 0px; 
+				padding-top:05px;
+				text-align: center;
+			
+			}
+			main{
+				display: flex;
+  				flex-flow: row wrap;
+  				justify-content: space-around;
+				  
+
+			}
+			img {
+				border: 3px solid rgb(39, 53, 36);
+				border-radius: 25px;
+				padding: 5px;
+				width: 200px;
+				
+
+			
+			  }
+			  .item img {
+				width: 200px;
+				height: 200px; 
+			  }
+			h3{
+		background-color:lightgray;
+			}
+			h4{
+				margin-right: 750px;
+				margin-top: -20px;
+			}
+			h6{
+				margin-right: 690px;
+				margin-top: -20px;
+			}
+		

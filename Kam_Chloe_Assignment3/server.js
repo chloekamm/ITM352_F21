@@ -15,6 +15,9 @@ var filename = 'user_data.json';
 const fs = require('fs');
 
 const qs = require('querystring');
+//Needed to send email 
+var nodemailer = require('nodemailer');
+
 
 var errors = {}; //needed to validate data 
 var saved_user_quantity_array; // to tmp store user  selected quantities until needed for invoice
@@ -58,14 +61,13 @@ app.get("/product_data.js", function (request, response, next) {
     response.send(products_str);
 });
 
-/* ASSIGNMENT #3 CODE EXAMPLES NEEDED?
-app.get("/add_to_cart", function (request, response) {
-    var products_key = request.query['products_key']; // get the product key sent from the form post
-    var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
-    request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
-    response.redirect('./cart.html');
+// make one that gets all user info but password
+app.post("/get_user_info", function (request, response) {
+    let username = request.query.username;
+    let user_info = users_reg_data[username];
+    delete user_info['password'];
+    response.json(user_info);
 });
-*/
 
 //code from assignment2 examples-used to login
 //code from lab14 Ex3 
@@ -156,16 +158,6 @@ app.post("/login", function (request, response) {
 
 
 
-            /* Used to store user data to display user info in assignment 2 
-            let params = new URLSearchParams();
-             params.append('quantity',JSON.stringify( saved_user_quantity_array));
-             params.append('username',login_username);
-             params.append('email',users_reg_data[login_username]['email']);
-             */
-
-            //Need to figure out a way to display username to know user is logged in. 
-            //console.log(`${request.cookies} is logged in`); 
-
             //display name on products display
 
             console.log(`${login_username} successfully logged in`);
@@ -200,7 +192,16 @@ app.post("/login", function (request, response) {
 
 
 // NEW PROCESS LOGOUT AND QUIT SESSION
+//When user clicks "logout", cookie (user_info) is deleted and no one is logged in. 
+app.get("/logout" , function (request, response) {
+    if (getCookie('user_info') != false) {
+        var user_info = JSON.parse(getCookie('user_info'));
+        console.log(user_info);
+    }
+    respon
 
+    
+});
 
 //code from lab 12
 //helps to check validate data
@@ -248,13 +249,8 @@ app.post("/add_to_cart", function (request, response, next) {
             console.log("Please enter some quantities.");
         }
     }
-    //Remove items purchased from qunatity available Code from Assignment 2;
-    /* NEED TO UPDATE 
-     for(let i in saved_user_quantity_array) {
-       products[i].quantity_available -= Number(saved_user_quantity_array[i]);
-   }
-   
-   */
+    
+  
     // if there are errors, display each error on a new line
     if (Object.keys(errors).length > 0) {
         var errorMessage_str = '';
@@ -282,18 +278,77 @@ app.post("/add_to_cart", function (request, response, next) {
             } else {
                 request.session.cart[products_key][i] = quantity_requested;
             }
+            console.log(request.session.cart);
         }
-        //Show session in console 
-        console.log(request.session.cart);
-
-    }
+              
+         
     let params = new URLSearchParams(request.body);
     //  params.append('products_key', products_key); 
     response.redirect(`./products_display.html?${params.toString()}`);
+    }
+});
+
+app.post("/update_cart", function (request, response) {
+  
 });
 
 
-//route all other GEt requests to files in the public folder. 
+// update the cart from shopping html
+
+//Confirm purchases and send user a copy of invoice 
+app.post("/confirm_purchase", function (request, response) {
+
+   
+var invoice_str = `Thank you for your order! <table border><th>Quantity</th><th>Item</th>`;
+var shopping_cart = request.session.cart;
+for(product_key in products_data) {
+  for(i=0; i<products_data[product_key].length; i++) {
+      if(typeof shopping_cart[product_key] == 'undefined') continue;
+      qty = shopping_cart[product_key][i];
+      if(qty > 0) {
+        invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+      }
+  }
+}
+invoice_str += '</table>';
+// Set up mail server. Only will work on UH Network due to security restrictions
+var transporter = nodemailer.createTransport({
+    host: "mail.hawaii.edu",
+    port: 25,
+    secure: false, // use TLS
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false
+    }
+  });
+
+  var user_email = 'phoney@mt2015.com';
+  var mailOptions = {
+    from: 'soccersaverstore@soccer.com',
+    to: user_email,
+    subject: 'Your soccer saver invoice',
+    html: invoice_str
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+    } else {
+      invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+    }
+    response.send(invoice_str);
+  });
+ 
+});
+
+//Check is quantities still available
+//Set up email invoice 
+//Clear cookies and sessions. 
+//Set up mail server. Only will work on UH Network due to security restrictions
+// Borrowed & Modified Code from A3 Example Codes 
+
+
+
 app.use(express.static('./public'));
 
 app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here to do a callback

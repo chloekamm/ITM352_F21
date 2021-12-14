@@ -1,0 +1,242 @@
+<!--Chloe Kam -->
+<!--Assignment 3 -->
+<!--Products Display page, allows users to see products and select quantities -->
+<script>
+
+	let params = (new URL(document.location)).searchParams;
+	window.onload = () => {
+		//If there are errors, they will display in the pop up alert letting the user know. 
+		if ((params.has('errorMessage'))) {
+			for (i in products) {
+				// put quantity values from qstring into quantity textboxes
+				product_selection_form[`quantity${i}`].value = params.get(`quantity${i}`);
+			}
+			alert(params.get("errorMessage"));
+		}
+	}
+
+
+	// code from https://www.w3schools.com/js/js_cookies.asp 
+	//FOR COOKIE FUNCTION
+
+	function getCookie(cname) {
+		let name = cname + "=";
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for (let i = 0; i < ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+
+
+//Function to check data validation-- For non-neg numbers, not real numbers 
+	function isNonNegInt(q, return_errors = false) {
+		errors = []; // assume no errors at first
+		if (q == '') q = 0; // handle blank inputs as if they are 0
+		if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+		else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+		else if (q > 25) errors.push('<font color="red">Not Enough In Stock!</font>');
+		else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+		return return_errors ? errors : (errors.length == 0);
+	}
+	//Checks text-box value and displays errors if they occur from user input. 
+	function checkQuantityTextbox(theTextbox) {
+		errs = isNonNegInt(theTextbox.value, true);
+		document.getElementById(theTextbox.name + '_errordiv').innerHTML = errs.join(", ");
+	}
+
+</script>
+
+<!DOCTYPE html>
+<!-- Template by html.am -->
+<html>
+
+<head>
+	<!-- pulls data of products and locates the style sheet for the design of the website.  -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--<script src='products.json'></script>-->
+
+	<link href="./products-style.css" rel="stylesheet" />
+	<link href="functions.css" rel="stylesheet" />
+	<title>Soccer Saver Store </title>
+	<script src="./functions.js"></script>
+	<script src="./product_data.js" type="text/javascript"></script>
+	<script>
+		// get the query string
+		if (params.has('products_key')) {
+			var products_key = params.get('products_key');
+		} else {
+			document.write('no products key in query string');
+			document.stop;
+		}
+		
+
+	</script>
+
+
+
+	</div>
+	</div>
+
+	</div>
+	</div>
+
+
+	<div class="navbar">
+	<h3>
+			<a href="./index.html">Home</a>
+			<div class="w3-padding-16 w3-left"><span id="login"><a href='login.html' style="margin-left: 0px;">Login</a></span>
+			</div>
+			
+			<a href="./cart.html">View Cart</a>
+
+		
+		
+			
+			<h4>
+				<script>
+	
+					if (getCookie('user_info') != false) {
+						var user_info = JSON.parse(getCookie('user_info'));
+						console.log(user_info);
+						document.write(`Welcome, ${user_info["name"]}! 
+						`); // If the user has a cookie called "user_info", welcome them by name
+					} else {
+						document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
+					};
+				
+			
+				</script>
+				
+				</h4>
+				</h3>
+				<h6>You have <span id="cart_total">0</span> items in your shopping cart</h6>
+			
+			
+
+		
+</head>
+
+<body>
+	<header id="header">
+		<div class="innertube">
+
+		
+		
+
+			<h1>Soccer Saver Store </h1>
+			
+			
+			
+			<script>
+				//Code from assingment 3 examples 
+				
+				var total = 0;
+			
+				loadJSON('get_cart', function (response) {
+				  // Parsing JSON string into object
+				  shopping_cart = JSON.parse(response);
+				  for (pk in shopping_cart) {
+					total += shopping_cart[pk].reduce((a, b) => a + b);
+				  }
+				});
+			
+			
+			</script>
+				<script>
+					cart_total.innerHTML = total;
+				  </script>
+			<script>
+				products = products_data[products_key]; // get the particular products to display
+			</script>
+			<script>
+				nav_bar(products_key, products_data); //Navigation Bar to display so can access other pages
+
+// if there is a username in the cookie, display "logout *username*"
+
+				
+				
+						//If there is a username present with cookie/session function, display username
+				/*if(request.session['username']>=0){
+					login.innerHTML=`Logout ${request.session['username']}`;
+		
+				} else {
+					login.innerHTML="Login";
+
+				}
+				console.log(request.session['username']);
+				*/
+
+			</script>
+
+			<!-- Connects the "purchase" button to the invoice page to display it 
+			
+		</div>
+	-->
+
+
+	</header>
+	<div id="mainwrapper">
+
+		<div id="contentwrapper">
+			<div id="content">
+				<div class="innertube">
+					<!-- An array to display the avaialble products for the different pages.  -->
+					<h1>Available Products: </h1>
+					<p>
+
+					<div>
+						<form action="/add_to_cart" name="product_selection_form" method="POST">
+							<main>
+								<script>
+									document.write(`<input type = "hidden" name="products_key" value="${products_key}">`);
+
+									for (i = 0; i < products.length; i++) {
+										document.write(`
+								  <section class="item">
+								  <div class="w3-quarter">
+								
+								
+								  <h2>${products[i].name}</h2> 
+								 <div class="img_wrap">
+								  <img src='${products[i].image}'>
+								  <p><span>$${products[i].price} |  ${products[i].quantity_available} in stock </span></p> 
+								  <label id="quantity${i}_label"}"> Enter a quantity</label>
+			
+								  <input type = "text" placeholder = "0" name="quantity${i}" maxlength="3" size="5"onkeyup = "checkQuantityTextbox(this);"> 
+								  	<div id= "quantity${i}_errordiv" > 
+								          
+								  </div>
+								  </section>`
+										);
+									}
+								</script>
+							</main>
+					</div>
+
+					<!-- Submit button to add items to cart, which eventually should lead to the cart page going to purchase -->
+					<br><input type="submit" class="button" value="Add items to cart" id="submit"
+						name="purchase_submit">
+					</form>
+</body>
+<!-- Footer for design and display. -->
+<footer id="footer">
+	<div class="footer">
+		<p>Contact us: Soccersaverstore@soccer.com
+			689-999-0000
+
+		</p>
+
+	</div>
+</footer>
+
+</body>
+
+</html>
