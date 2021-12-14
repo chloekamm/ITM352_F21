@@ -294,35 +294,39 @@ app.post("/add_to_cart", function (request, response, next) {
     }
 });
 /*
-app.post("./update_cart", function (request, response) {
+app.post("/update_cart", function (request, response) {
   //replace the shopping cart data
  
-    });
-
-
+});
 */
+
+
+
 
 
 // update the cart from shopping html
 
 //Confirm purchases and send user a copy of invoice 
 //Assignment 3 code examples and modified to fit user verification 
-app.post("/confirm_purchase", function (request, response) {
+app.post("/confirm_purchase", function (request, response) { //will not work if user is not logged in. 
 
     var invoice = request.body; // saves invoice data to variable
     var user_info = JSON.parse(request.cookies["user_info"]); // sets user info as javascript
     var the_email = user_info["email"]; //saves user email as variable
     var username=user_info["username"];// needs to be saved for user verification on invoice. 
     console.log(the_email);//Checkign to see if user email is right, written in console. 
+
+   
+    
     var invoice_str = `Thank you for your order ${username}! <table border><th>Quantity</th><th>Item</th>`;
     //Table format from assignment 3 code examples 
     var shopping_cart = request.session.cart;
     for (product_key in products_data) {
         for (i = 0; i < products_data[product_key].length; i++) {
             if (typeof shopping_cart[product_key] == 'undefined') continue;
-            qty = shopping_cart[product_key][i];
-            if (qty > 0) {
-                invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+            a_qty = shopping_cart[product_key][i];
+            if (a_qty > 0) {
+                invoice_str += `<tr><td>${a_qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
             }
         }
     }

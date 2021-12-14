@@ -20,6 +20,28 @@
             "price": 129.99
         }
     ],
+    
+        "Pro Shop":[ 
+            {
+                "name": "Sounders Jersey",
+                "quantity_available": 25,
+                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/kidscleats.jpeg?raw=true" ,
+                "price": 72.99
+                
+            },
+            {
+                "name": "USA Jersey",
+                "quantity_available": 25,
+               "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/womenscleats.jpeg?raw=true" ,
+                "price": 90.99
+            },
+            {
+                "name": "Real Salt Lake Jersey",
+                "quantity_available": 25,
+                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/soccercleats.jpeg?raw=true" ,
+                "price": 83.99
+            }
+        ],
     "Soccer Balls": [ 
         {
             "name": "Blue Soccer Ball",
