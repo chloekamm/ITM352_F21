@@ -147,7 +147,7 @@
               if (getCookie('user_info') != false) {
                 var user_info = JSON.parse(getCookie('user_info'));
                 console.log(user_info);
-                document.write(`Welcome, ${user_info["name"]} here is your cart: 
+                document.write(`Welcome, ${user_info["username"]} here is your cart: 
                 `); // If the user has a cookie called "user_info", welcome them by name
               } else {
                 document.write(`User not logged in`); // If the user does not have a cookie called "user_info", display not logged in msg
@@ -172,15 +172,13 @@
      
   
           
-       
-    
-
-
+    <form action="/update_cart" method="POST">
+  
 
     <table border="2">
       <tbody>
         <tr style="background-color: lightblue">
-       
+          <!--Label columns-->
           <th style="text-align: center;" width="16%">Product Name</th>
           <th style="text-align: center;" width="13%">Price</th>
           <th style="text-align: center;" width="25%">Quantity</th>
@@ -259,11 +257,14 @@
     <br>
     <br>
     <p>
+  
       
-    <form action="./confirm_purchase" method="POST">
+      
+   <form action="./confirm_purchase" method="POST">
       <input type="submit" value="Confirm Order" name="confirm_purchase"
         style="margin:0px auto; display:block; background-color: lightblue; border-radius: 8px; font-family: 'Montserrat', sans-serif">
     </form>
+  
     </p>
 
     </p>

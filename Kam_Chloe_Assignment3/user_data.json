@@ -22,5 +22,17 @@
     "mkamm": {
         "password": "hello123",
         "email": "kam2@gmail.com"
+    },
+    "bkam123": {
+        "password": "123456",
+        "email": "kam@gmail.com"
+    },
+    "mkam123": {
+        "password": "123456",
+        "email": "kamchloe11@gmail.com"
+    },
+    "julkam": {
+        "password": "123456",
+        "email": "kamchloe11@gmail.com"
     }
 }

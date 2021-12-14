@@ -114,7 +114,7 @@ app.post("/register", function (request, response) {
         //saved_user_quantity_array['email'] = email;
         let params = new URLSearchParams(saved_user_quantity_array);
 
-        response.redirect('./products_display.html?products_key=Soccer%20Cleats');
+        response.redirect('./login.html');
 
         console.log("successfully registered");
 
@@ -150,8 +150,8 @@ app.post("/login", function (request, response) {
             //display name on products display and other pages 
             //Gets variable for cookie to display username on pages
             var user_info = { "username": login_username, "name": users_reg_data[login_username].name, "email": users_reg_data[login_username].email };
-            //Gives cookie a expiration time, it will hold user data for 40 minutes EXTRA CREDIT??
-            response.cookie('user_info', JSON.stringify(user_info), { maxAge: 40 * 60 * 1000 });
+            //Gives cookie a expiration time, it will hold user data for 30 minutes EXTRA CREDIT??
+            response.cookie('user_info', JSON.stringify(user_info), { maxAge: 30 * 60 * 1000 });
 
             console.log(`Welcome ${request.session['username']}`); //written in console to see if correct outcome occurs 
 
@@ -311,13 +311,21 @@ app.post("/update_cart", function (request, response) {
 app.post("/confirm_purchase", function (request, response) { //will not work if user is not logged in. 
 
     var invoice = request.body; // saves invoice data to variable
+//Removes quantity bought/inputted from user and takes away from quantity available
+    for (let pk in request.session.cart) {
+        for (let i in request.session.cart[pk]) {
+            products_data[pk][i].quantity_available -= request.session.cart[pk][i];
+        }
+    }
+
+
+  
     var user_info = JSON.parse(request.cookies["user_info"]); // sets user info as javascript
     var the_email = user_info["email"]; //saves user email as variable
     var username=user_info["username"];// needs to be saved for user verification on invoice. 
-    console.log(the_email);//Checkign to see if user email is right, written in console. 
 
-   
-    
+  
+    console.log(the_email);//Checkign to see if user email is right, written in console. 
     var invoice_str = `Thank you for your order ${username}! <table border><th>Quantity</th><th>Item</th>`;
     //Table format from assignment 3 code examples 
     var shopping_cart = request.session.cart;

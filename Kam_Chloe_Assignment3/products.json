@@ -25,20 +25,20 @@
             {
                 "name": "Sounders Jersey",
                 "quantity_available": 25,
-                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/kidscleats.jpeg?raw=true" ,
+                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/sounder.jpeg?raw=true" ,
                 "price": 72.99
                 
             },
             {
                 "name": "USA Jersey",
                 "quantity_available": 25,
-               "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/womenscleats.jpeg?raw=true" ,
+               "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/USA.jpeg?raw=true" ,
                 "price": 90.99
             },
             {
                 "name": "Real Salt Lake Jersey",
                 "quantity_available": 25,
-                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/soccercleats.jpeg?raw=true" ,
+                "image": "https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment3/images/salt%20lake.jpg?raw=true" ,
                 "price": 83.99
             }
         ],
