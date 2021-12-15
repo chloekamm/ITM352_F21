@@ -20,6 +20,7 @@ table{
    background: url("https://github.com/chloekamm/ITM352_F21/blob/main/Kam_Chloe_Assignment1/images/background.jpeg?raw=true") ;
    margin-right: 100px;
    border-spacing: 10px 10px;
+   border: 10px;
 
 }
 tr:hover {
